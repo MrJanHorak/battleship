@@ -45,7 +45,7 @@ setup game variables
     * to show boat placement when initially placed
     * to update the guesses hit or miss
   
-* is_Hit() 
+* hitOrMiss()
     * to compare clickEvent to placementGris array
     * changes the value of the boats status for that index/grid location
   
