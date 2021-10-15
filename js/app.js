@@ -34,6 +34,7 @@ function init() {
 
   console.log('this is init()')
   createGrid()
+  createGridArray()
   render()
 
 }
@@ -86,4 +87,7 @@ function createGrid(){
     gameGrid.appendChild(cell).setAttribute('id' ,`${c}`)
   }
 
-}
+  }
+  function createGridArray(){
+    console.log('this is createGridArray')
+  }

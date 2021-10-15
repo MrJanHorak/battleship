@@ -37,7 +37,8 @@ body {
 #gameView {
   background-color: black;
   justify-content: center;
-  width: 350px;
+  width: 70%;
+  height: 50vw;
   margin: auto;
   display: grid;
   grid-template-columns: 70% 1fr;
@@ -46,6 +47,7 @@ body {
 
 #battleshipGrid {
   display: grid;
+  height: 100%;
   grid-gap: .1em;
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
