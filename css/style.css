@@ -24,18 +24,36 @@ body {
   /* Use a system font, if none are available use an available sans-sarif font */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    text-align: center;
 
+}
+
+.grid-item {
+  padding: .5em;
+  border: 1px solid #ddd;
+  text-align: center;
+  background-color: aqua;
+}
+#gameView {
+  background-color: black;
+  justify-content: center;
+  width: 350px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 70% 1fr;
+  grid-template-areas: "main side";
 }
 
 #battleshipGrid {
   display: grid;
-  grid-gap: 1em;
+  grid-gap: .1em;
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
+  grid-area: "main";
 }
 
-.grid-item {
-  padding: 1em;
-  border: 1px solid #ddd;
-  text-align: center;
+#sideBar {
+  background-color: blanchedalmond;
+  margin-left: 0;
+  grid-area: "side";
 }

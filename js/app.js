@@ -17,7 +17,7 @@ const gameGrid = document.querySelector("#battleshipGrid")
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-
+gameGrid.addEventListener("click", handleClick)
 
 /*-------------------------------- Functions --------------------------------*/
 init()
@@ -36,10 +36,12 @@ function init() {
   createGrid()
   render()
 
-
 }
 
-
+function handleClick(event) {
+  console.log("this is handleClick")
+  console.log("this got clicked:",event.target.id)
+}
 
 function render(){
   console.log('this is render()')
@@ -66,15 +68,22 @@ function changeBoatStatus(){
 }
 
 function createGrid(){
-  console.log('this is createGrid')
+  
+  // figured this out by reading some old stackexchange notes
 
+  console.log('this is createGrid')
+  //  set grid/cell styles by assigning CSS styles
   gameGrid.style.setProperty('--grid-rows', rows)
   gameGrid.style.setProperty('--grid-cols', columns)
+
+  // iterating through the given parameters of row and columns to create
+  // game grid of the desired size.
+  // Class name and individual cell id's are also assigned at this point
   for (let c = 0; c<(rows * columns);c++){
     let cell = document.createElement("div");
-    cell.innerText = (c + 1)
-    gameGrid.appendChild(cell).className = 'grid-item'
-    gameGrid.appendChild(cell).idName = `c`
+    cell.innerText = (c)
+    gameGrid.appendChild(cell).setAttribute('class','grid-item')
+    gameGrid.appendChild(cell).setAttribute('id' ,`${c}`)
   }
 
 }
