@@ -10,7 +10,7 @@ const boatsArray =[ {boatType: 'carrier', placed:false, stats:["sw", "sw", "sw",
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numberOfHits, numOfGuesses, gameState, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, gridLocation
+let numberOfHits, numOfGuesses, gameState, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, gridLocation,boatLength
 
 
 /*------------------------ Cached Element References ------------------------*/
@@ -31,10 +31,11 @@ function init() {
   numberOfHits = 0
   numOfGuesses = 0
   whoWins = null
-  gameGridState = null
+  gameGridState = []
   shipOrientation = 'horizontal'
   selectedBoat = null
-  console.log('this is init()')
+  boatLength =0
+
   createGrid()
   createGridArray()
   render()
@@ -108,6 +109,7 @@ function placeShip(gridLocation){
   console.log("this got clicked:",gridLocation)
   console.log('selected Boat in placeShip',selectedBoat)
   console.log('boat shipOrientation in placeShip',shipOrientation)
+  
 }
 
 function guessShip(){
@@ -148,4 +150,8 @@ function createGrid(){
   }
   function createGridArray(){
     console.log('this is createGridArray')
+    for (let i = 0 ;i < rows*columns ; i++){
+      gameGridState.push('w')
+    }
+    console.log(gameGridState)
   }
