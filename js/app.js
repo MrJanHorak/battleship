@@ -2,12 +2,11 @@
 // boar objects to record placement status and the boat status array
 // Boat arrays contain values to show thier current status
 // sw = swim   and   hi = hit
-
-const carrier = {placed:false, stats:["sw", "sw", "sw", "sw", "sw"]}
-const battleship = {placed:false, stats:["sw", "sw", "sw", "sw"]}
-const submarine = {placed:false, stats:["sw", "sw", "sw"]}
-const cruiser = {placed:false, stats:["sw", "sw" ,"sw"]}
-const destroyer = {placed:false, stats:["sw", "sw"]}
+const boatsArray =[ {boatType: 'carrier', placed:false, stats:["sw", "sw", "sw", "sw", "sw"]},
+                    {boatType: 'battleship', placed:false, stats:["sw", "sw", "sw", "sw"]},
+                    {boatType: 'submarine', placed:false, stats:["sw", "sw", "sw"]},
+                    {boatType: 'cruiser', placed:false, stats:["sw", "sw" ,"sw"]},
+                    {boatType: 'destroyer', placed:false, stats:["sw", "sw"]}]
 
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -57,7 +56,7 @@ function handleClick(event) {
   // this allows a player to change thier mind about which boat to place
   if ((gameGridState === null || gameGridState === 'place') && event.target.className === "boats" 
       && event.target.is !== "sideBar") {
-        selectedBoat = event.target.id
+        selectBoat(event.target.id)
         gameGridState = 'place'
       }
 
@@ -66,8 +65,6 @@ function handleClick(event) {
       && event.target.id!=="battleshipGrid" && event.target.id!=="sideBar"){
 
       gridLocation = event.target.id
-      `${selectedBoat}[placed]=true`
-      console.log(selectedBoat)
       placeShip(gridLocation)
       gameGridState = null
     }
@@ -86,16 +83,19 @@ if (gameGridState === 'guess' && event.target.id !== "battleshipGrid"
     if(event.target.className==="grid-item"){
       console.log(event.target.id,' This square was clicked')
     }
-    // if(event.target.className==="boats") {
-    //   console.log(event.target.id,'This boat was selected')
-    //   selectedBoat = event.target.id
-    //   console.log (selectedBoat, 'Selected boat variable')
-    // }
-
 }
 }
 
-
+// select the proper boat from the boatsArray and return it for the rest of the current turn
+function selectBoat (selectBoat) {
+  for (let i=0; i<boatsArray.length;i++){
+    if(boatsArray[i].boatType === selectBoat){
+      console.log(i, 'found the selected boatType at thisindex')
+      selectedBoat = boatsArray[i]
+      return
+      }
+  }
+}
 
 
 
