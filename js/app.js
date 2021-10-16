@@ -10,16 +10,16 @@ const boatsArray =[ {boatType: 'carrier', placed:false, stats:["sw", "sw", "sw",
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numberOfHits, numOfGuesses, gameState, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, gridLocation,boatLength
+let numberOfHits, numOfGuesses, gameState, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, gridLocation,boatLength,allSquares
 
 
 /*------------------------ Cached Element References ------------------------*/
-const gameGrid = document.querySelector("#battleshipGrid")
+const selectedGrid = document.querySelector("#battleshipGrid")
 const sideBar = document.querySelector('#sideBar')
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-gameGrid.addEventListener("click", handleClick)
+selectedGrid.addEventListener("click", handleClick)
 sideBar.addEventListener("click", handleClick)
 /*-------------------------------- Functions --------------------------------*/
 init()
@@ -31,7 +31,8 @@ function init() {
   numberOfHits = 0
   numOfGuesses = 0
   whoWins = null
-  gameGridState = []
+  gameGridState = null
+  gameGridArray = []
   shipOrientation = 'horizontal'
   selectedBoat = null
   boatLength =0
@@ -98,10 +99,24 @@ function selectBoat (selectBoat) {
   }
 }
 
-
-
 function render(){
   console.log('this is render()')
+  // render gameGridState to reflect the current content of the array (boat placement/water/hit or miss)
+  for (let i = 0 ; i <gameGridArray.length;i++){
+    if (gameGridArray[i] ==='w'){
+      allSquares[i].style.backgroundColor="blue"
+    }
+    if (gameGridArray[i]=== 'b'){
+      allSquares[i].style.backgroundColor="grey"
+    } 
+    if (gameGridArray[i]=== 'h'){
+      allSquares[i].style.backgroundColor="red"
+    } 
+    if (gameGridArray[i]=== 'm'){
+      allSquares[i].style.backgroundColor="white"
+    } 
+    
+  }
 }
 
 function placeShip(gridLocation){
@@ -134,8 +149,8 @@ function createGrid(){
 
   console.log('this is createGrid')
   //  set grid/cell styles by assigning CSS styles
-  gameGrid.style.setProperty('--grid-rows', rows)
-  gameGrid.style.setProperty('--grid-cols', columns)
+  selectedGrid.style.setProperty('--grid-rows', rows)
+  selectedGrid.style.setProperty('--grid-cols', columns)
 
   // iterating through the given parameters of row and columns to create
   // game grid of the desired size.
@@ -143,15 +158,21 @@ function createGrid(){
   for (let c = 0; c<(rows * columns);c++){
     let cell = document.createElement("div");
     cell.innerText = (c)
-    gameGrid.appendChild(cell).setAttribute('class','grid-item')
-    gameGrid.appendChild(cell).setAttribute('id' ,`${c}`)
+    selectedGrid.appendChild(cell).setAttribute('class','grid-item')
+    selectedGrid.appendChild(cell).setAttribute('id' ,`${c}`)
   }
+  // QuerySelectorAll cannot function until the grid is created
+  // that is why I have to place it here and not in with the
+  // cached elements on top.
+  allSquares = document.querySelectorAll(".grid-item")
 
+  // Creates the array that contains the data of the game grid state. 
+  // This array will store the boat locations and b used to compare guesses
   }
   function createGridArray(){
     console.log('this is createGridArray')
     for (let i = 0 ;i < rows*columns ; i++){
-      gameGridState.push('w')
+      gameGridArray.push('w')
     }
     console.log(gameGridState)
   }

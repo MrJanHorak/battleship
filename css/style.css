@@ -32,10 +32,10 @@ body {
   padding: .5em;
   border: 1px solid #ddd;
   text-align: center;
-  background-color: aqua;
+  /*background-color: aqua;*/
 }
 #gameView {
-  background-color: black;
+  /*background-color: black;*/
   justify-content: center;
   width: 70%;
   height: 50vw;
