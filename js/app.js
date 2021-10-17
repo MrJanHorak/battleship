@@ -108,15 +108,15 @@ function selectBoat (selectBoat) {
       selectedBoat = boatsArray[i]
       boatLength = selectedBoat.length
       console.log(boatsSelection[i])
-      // an attempt to change the background color of the currently selected boat
-      // if(boatsArray[i].boatType === selectBoat && boatsArray[i].placed === false){
-      //   boatsSelection[i].style.backgroundColor="yellow"
-        // if(previousSelectedBoat!=="")
-        //   {previousSelectedBoat.style.backgroundColor=""} 
-        // previousSelectedBoat = boatsSelection[i]
+      // change current selected boat name yellow
+      boatsSelection[i].style.backgroundColor="yellow"
+      if(previousSelectedBoat!==""){
+        previousSelectedBoat.style.backgroundColor=""} 
+      previousSelectedBoat = boatsSelection[i]
       }
     }
-
+  
+      
   }
 
 
@@ -141,14 +141,11 @@ function render(){
 })
 }
 
-
+// function to place the boat on the grid
+// it adds the boat to the GameGridArray 
 function placeShip(){
-  console.log('this is place ship')
-  console.log("this got clicked:",rowIndex, 'rowindex and ', columnIndex, 'columnIndex')
-  console.log('selected Boat in placeShip',selectedBoat)
-  console.log('boat shipOrientation in placeShip',shipOrientation)
-  //if(rowIndex+boatLength<rows)
-  //{return}
+if (selectedBoat.placed === false){
+
   if (shipOrientation==='horizontal'){
     for (let i=0; i<boatLength; i++){
     gameGridArray[rowIndex][columnIndex+i]='b'}
@@ -160,9 +157,10 @@ function placeShip(){
   selectedBoat.placed = true
   gameGridArray.forEach(e => console.log(e))
   render()
-  
 }
-
+}
+// function to change the orientation of boat to place on grid
+// also updates the button name on screen
 function boatOrient(){
   shipOrientation === 'vertical' ? shipOrientation = 'horizontal' : shipOrientation = 'vertical'
   boatOrientationButton.innerHTML = shipOrientation
