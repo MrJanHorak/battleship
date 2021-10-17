@@ -43,6 +43,7 @@ function init() {
   selectedBoat = null
   boatLength = 0
   previousSelectedBoat = ""
+  messages.innerHTML = `<h2>Player 1 please begin placing boats.<h2>`
   // createGrid and createGridArray are only called once for the game set-up/reset
   // they will automatically create the html grid displayed and the corressponding 
   // array for the game state that is then used for the rest of the game play
@@ -53,7 +54,7 @@ function init() {
 }
 
 function handleClick(event) {
-
+  
   // This part of the function only run if the player is placing a boat
   // And to filter out any potential bugs the code makes sure a click on the parent
   // <Div> is not computed. When a click on the grid happens and a boat is activated 
@@ -79,24 +80,20 @@ function handleClick(event) {
         columnIndex = parseInt(event.target.id.charAt(0))
         rowIndex = parseInt(event.target.id.charAt(1))
       }
-      
-      //the use of an outside helper function to maintain seperation of interests
-
       placeShip()
-      gameGridState = null
     }
 
-// When a boat is selected it changes the variable of selectedBoat to the specific boat
-// that variable helps fill the array with the info and length on which boat is placed where
+  // When a boat is selected it changes the variable of selectedBoat to the specific boat
+  // that variable helps fill the array with the info and length on which boat is placed where
 
-if (gameGridState === 'guess' && event.target.id !== "battleshipGrid" 
-    && event.target.id!=="sideBar"){
+  if (gameGridState === 'guess' && event.target.id !== "battleshipGrid" 
+      && event.target.id!=="sideBar"){
 
-  console.log("this is handleClick in guess mode")
-  console.log("this got clicked:",event.target.className)
+    console.log("this is handleClick in guess mode")
+    console.log("this got clicked:",event.target.className)
 
-    if(event.target.className==="grid-item"){
-      console.log(event.target.id,' This square was clicked')
+  if(event.target.className==="grid-item"){
+    console.log(event.target.id,' This square was clicked')
     }
 }
 }
@@ -129,10 +126,10 @@ function selectBoat (selectBoat) {
 }
 
 
+// render gameGridState to reflect the current content of the array 
+// (boat placement/water/hit or miss)
 function render(){
   console.log('this is render()')
-  // render gameGridState to reflect the current content of the array 
-  // (boat placement/water/hit or miss)
   let counter=0
   gameGridArray.forEach(arr => {
     arr.forEach(element => {
@@ -146,8 +143,20 @@ function render(){
       allSquares[counter].style.backgroundColor="white"
     }
     counter++ 
-  })
+  })  
 })
+
+// creating an array to check each boats placement status
+// if all boats are placed the game switched to guess mode.
+let placedStatus = []
+for (let i=0 ; i < boatsArray.length ; i++){
+  placedStatus.push(boatsArray[i].placed)
+}
+
+if(placedStatus.includes(false)!==true){
+messages.innerHTML=`<h2>Player 2 nows its your turn to guess<h2>`
+gameGridState = 'guess'
+}
 }
 
 // function to place the boat on the grid
@@ -165,8 +174,7 @@ function placeShip(){
       }
       if(potentialBoatLocation.includes("b")===false){
         //actually place the boat and change the 'placed status to true'
-        for (let i=0; i<boatLength; i++){
-          
+        for (let i=0; i<=boatLength; i++){
             if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<10){
               gameGridArray[columnIndex][rowIndex+i]='b'
               selectedBoat.placed = true
@@ -178,21 +186,23 @@ function placeShip(){
       }  
     }
     if (shipOrientation==='vertical' && columnIndex+boatLength<10){
+      // check to see if the potential boat location is actually clear of other boats
       for (let i=0; i<boatLength; i++){
         potentialBoatLocation.push(gameGridArray[columnIndex+i][rowIndex])
       }
       if(potentialBoatLocation.includes("b")===false){
-      for (let i=0; i<boatLength; i++){
-        if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
-        gameGridArray[columnIndex+i][rowIndex]='b'
-        selectedBoat.placed = true
-        boatsSelection[boatsArrayIndex].innerText=""}
+        //actually place the boat and change the 'placed status to true'
+        for (let i=0; i<=boatLength; i++){
+          if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
+            gameGridArray[columnIndex+i][rowIndex]='b'
+            selectedBoat.placed = true
+            //removes the placed boat from the available selection
+            boatsSelection[boatsArrayIndex].innerText=""
+          }
         render()
+        }
+      }
     }
-  }
-    gameGridArray.forEach(e => console.log(e))
-    render()
-  }
   }
 }
 
