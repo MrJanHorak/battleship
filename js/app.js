@@ -71,11 +71,11 @@ function handleClick(event) {
   if (gameGridState === 'place' && event.target.className === "grid-item" 
       && event.target.id!=="battleshipGrid" && event.target.id!=="sideBar"){
       if (event.target.id.length<2){
-        rowIndex = 0
-        columnIndex = parseInt(event.target.id)
+        columnIndex = 0
+        rowIndex = parseInt(event.target.id)
       } else {
-        rowIndex = parseInt(event.target.id.charAt(0))
-        columnIndex = parseInt(event.target.id.charAt(1))
+        columnIndex = parseInt(event.target.id.charAt(0))
+        rowIndex = parseInt(event.target.id.charAt(1))
       }
       
       //the use of an outside helper function to maintain seperation of interests
@@ -145,18 +145,24 @@ function render(){
 // it adds the boat to the GameGridArray 
 function placeShip(){
 if (selectedBoat.placed === false){
-
   if (shipOrientation==='horizontal'){
     for (let i=0; i<boatLength; i++){
-    gameGridArray[rowIndex][columnIndex+i]='b'}
+      if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<10){
+        gameGridArray[columnIndex][rowIndex+i]='b'
+        selectedBoat.placed = true}
+        render()
+      }
   }
-  if (shipOrientation==='vertical'){
+  if (shipOrientation==='vertical' && columnIndex+boatLength<10){
     for (let i=0; i<boatLength; i++){
-      gameGridArray[rowIndex+i][columnIndex]='b'}
+      if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
+      gameGridArray[columnIndex+i][rowIndex]='b'
+      selectedBoat.placed = true}
+      render()
   }
-  selectedBoat.placed = true
   gameGridArray.forEach(e => console.log(e))
   render()
+}
 }
 }
 // function to change the orientation of boat to place on grid
