@@ -1,31 +1,34 @@
 /*-------------------------------- Constants --------------------------------*/
-// boar objects to record placement status and the boat status array
+// boat objects to record placement status and the boat status array
 // Boat arrays contain values to show thier current status
-// sw = swim   and   hi = hit
-const boatsArray =[ {boatType: 'carrier', placed:false, stats:["sw", "sw", "sw", "sw", "sw"]},
-                    {boatType: 'battleship', placed:false, stats:["sw", "sw", "sw", "sw"]},
-                    {boatType: 'submarine', placed:false, stats:["sw", "sw", "sw"]},
-                    {boatType: 'cruiser', placed:false, stats:["sw", "sw" ,"sw"]},
-                    {boatType: 'destroyer', placed:false, stats:["sw", "sw"]}]
+
+const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
+                    {boatType: 'battleship', placed:false, length:4},
+                    {boatType: 'submarine', placed:false, length:3},
+                    {boatType: 'cruiser', placed:false, length:3},
+                    {boatType: 'destroyer', placed:false, length:2}]
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numberOfHits, numOfGuesses, gameState, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, gridLocation,boatLength,allSquares
+let numberOfHits, numOfGuesses, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray
 
 
 /*------------------------ Cached Element References ------------------------*/
 const selectedGrid = document.querySelector("#battleshipGrid")
 const sideBar = document.querySelector('#sideBar')
-
+const boatsSelection = document.querySelectorAll('.boat')
+const boatOrientationButton = document.querySelector("#horVer")
 
 /*----------------------------- Event Listeners -----------------------------*/
 selectedGrid.addEventListener("click", handleClick)
 sideBar.addEventListener("click", handleClick)
+boatOrientationButton.addEventListener("click", boatOrient)
 /*-------------------------------- Functions --------------------------------*/
 init()
-
 function init() {
 
+  rowIndex = null
+  columnIndex = null
   rows= 10
   columns = 10
   numberOfHits = 0
@@ -35,10 +38,14 @@ function init() {
   gameGridArray = []
   shipOrientation = 'horizontal'
   selectedBoat = null
-  boatLength =0
-
+  boatLength = 0
+  previousSelectedBoat = ""
+  // createGrid and createGridArray are only called once for the game set-up/reset
+  // they will automatically create the html grid displayed and the corressponding 
+  // array for the game state that is then used for the rest of the game play
   createGrid()
   createGridArray()
+  boatOrient()
   render()
 
 }
@@ -51,30 +58,34 @@ function handleClick(event) {
   // the boat grid length is placed in the grid array. The orientation info and length
   // of boat need to be passed on and computed.
 
-  console.log("this is handleClick")
-  console.log('gamegridstate',gameGridState)
 
   // boats can be selected is the gameGrid staste is null
   // this allows a player to change thier mind about which boat to place
-  if ((gameGridState === null || gameGridState === 'place') && event.target.className === "boats" 
+  if ((gameGridState === null || gameGridState === 'place') && event.target.className === "boat" 
       && event.target.is !== "sideBar") {
         selectBoat(event.target.id)
         gameGridState = 'place'
       }
 
-      //this handles a click on the grid to place a boat
+  //this handles a click on the grid to place a boat
   if (gameGridState === 'place' && event.target.className === "grid-item" 
       && event.target.id!=="battleshipGrid" && event.target.id!=="sideBar"){
+      if (event.target.id.length<2){
+        rowIndex = 0
+        columnIndex = parseInt(event.target.id)
+      } else {
+        rowIndex = parseInt(event.target.id.charAt(0))
+        columnIndex = parseInt(event.target.id.charAt(1))
+      }
+      
+      //the use of an outside helper function to maintain seperation of interests
 
-      gridLocation = event.target.id
-      placeShip(gridLocation)
+      placeShip()
       gameGridState = null
     }
 
 // When a boat is selected it changes the variable of selectedBoat to the specific boat
 // that variable helps fill the array with the info and length on which boat is placed where
-
-// how will I use that variable to select the coorelated array?????
 
 if (gameGridState === 'guess' && event.target.id !== "battleshipGrid" 
     && event.target.id!=="sideBar"){
@@ -88,45 +99,75 @@ if (gameGridState === 'guess' && event.target.id !== "battleshipGrid"
 }
 }
 
-// select the proper boat from the boatsArray and return it for the rest of the current turn
+// select the proper boat from the boatsArray
+// and set the selectedboat variable for the rest of the current turn
 function selectBoat (selectBoat) {
+  console.log('this is selectBoat')
   for (let i=0; i<boatsArray.length;i++){
-    if(boatsArray[i].boatType === selectBoat){
-      console.log(i, 'found the selected boatType at thisindex')
+    if(boatsArray[i].boatType === selectBoat && boatsArray[i].placed === false){
       selectedBoat = boatsArray[i]
-      return
+      boatLength = selectedBoat.length
+      console.log(boatsSelection[i])
+      // an attempt to change the background color of the currently selected boat
+      // if(boatsArray[i].boatType === selectBoat && boatsArray[i].placed === false){
+      //   boatsSelection[i].style.backgroundColor="yellow"
+        // if(previousSelectedBoat!=="")
+        //   {previousSelectedBoat.style.backgroundColor=""} 
+        // previousSelectedBoat = boatsSelection[i]
       }
+    }
+
   }
-}
+
 
 function render(){
   console.log('this is render()')
-  // render gameGridState to reflect the current content of the array (boat placement/water/hit or miss)
-  for (let i = 0 ; i <gameGridArray.length;i++){
-    if (gameGridArray[i] ==='w'){
-      allSquares[i].style.backgroundColor="blue"
+  // render gameGridState to reflect the current content of the array 
+  // (boat placement/water/hit or miss)
+  let counter=0
+  gameGridArray.forEach(arr => {
+    arr.forEach(element => {
+      if(element ==='w'){
+      allSquares[counter].style.backgroundColor="blue"
+    } else if (element === 'b'){
+      allSquares[counter].style.backgroundColor="grey"
+    } else if (element === 'h'){
+      allSquares[counter].style.backgroundColor="red"
+    } else if (element === 'm'){
+      allSquares[counter].style.backgroundColor="white"
     }
-    if (gameGridArray[i]=== 'b'){
-      allSquares[i].style.backgroundColor="grey"
-    } 
-    if (gameGridArray[i]=== 'h'){
-      allSquares[i].style.backgroundColor="red"
-    } 
-    if (gameGridArray[i]=== 'm'){
-      allSquares[i].style.backgroundColor="white"
-    } 
-    
-  }
+    counter++ 
+  })
+})
 }
 
-function placeShip(gridLocation){
+
+function placeShip(){
   console.log('this is place ship')
-  console.log("this got clicked:",gridLocation)
+  console.log("this got clicked:",rowIndex, 'rowindex and ', columnIndex, 'columnIndex')
   console.log('selected Boat in placeShip',selectedBoat)
   console.log('boat shipOrientation in placeShip',shipOrientation)
+  //if(rowIndex+boatLength<rows)
+  //{return}
+  if (shipOrientation==='horizontal'){
+    for (let i=0; i<boatLength; i++){
+    gameGridArray[rowIndex][columnIndex+i]='b'}
+  }
+  if (shipOrientation==='vertical'){
+    for (let i=0; i<boatLength; i++){
+      gameGridArray[rowIndex+i][columnIndex]='b'}
+  }
+  selectedBoat.placed = true
+  gameGridArray.forEach(e => console.log(e))
+  render()
   
 }
 
+function boatOrient(){
+  shipOrientation === 'vertical' ? shipOrientation = 'horizontal' : shipOrientation = 'vertical'
+  boatOrientationButton.innerHTML = shipOrientation
+  console.log(shipOrientation)
+}
 function guessShip(){
   console.log('This is Guess')
 }
@@ -161,18 +202,25 @@ function createGrid(){
     selectedGrid.appendChild(cell).setAttribute('class','grid-item')
     selectedGrid.appendChild(cell).setAttribute('id' ,`${c}`)
   }
+
   // QuerySelectorAll cannot function until the grid is created
   // that is why I have to place it here and not in with the
   // cached elements on top.
   allSquares = document.querySelectorAll(".grid-item")
 
-  // Creates the array that contains the data of the game grid state. 
-  // This array will store the boat locations and b used to compare guesses
-  }
+}
+
+// Creates the array that contains the data of the game grid state. 
+// This array will store the boat location && used to compare guesses
   function createGridArray(){
-    console.log('this is createGridArray')
-    for (let i = 0 ;i < rows*columns ; i++){
-      gameGridArray.push('w')
+
+    for (let c = 0 ;c < columns ; c++){
+      //creates an empty array
+      gameGridArray.push([])
+      //now pushes the w's into each index of gameGridArray at the index of [c]  
+      //this array of arrays corresponds with each row and column of the display grid
+      for (let r = 0 ; r < rows ; r++ ){
+      gameGridArray[c].push('w')
     }
-    console.log(gameGridState)
+  }
   }
