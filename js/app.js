@@ -10,7 +10,7 @@ const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numberOfHits, numOfGuesses, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray
+let numberOfHits, numOfGuesses, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex
 
 
 /*------------------------ Cached Element References ------------------------*/
@@ -18,6 +18,7 @@ const selectedGrid = document.querySelector("#battleshipGrid")
 const sideBar = document.querySelector('#sideBar')
 const boatsSelection = document.querySelectorAll('.boat')
 const boatOrientationButton = document.querySelector("#horVer")
+const messages = document.querySelector('#messages')
 
 /*----------------------------- Event Listeners -----------------------------*/
 selectedGrid.addEventListener("click", handleClick)
@@ -25,8 +26,10 @@ sideBar.addEventListener("click", handleClick)
 boatOrientationButton.addEventListener("click", boatOrient)
 /*-------------------------------- Functions --------------------------------*/
 init()
-function init() {
 
+function init() {
+  boatsArrayIndex = null
+  boatName = ""
   rowIndex = null
   columnIndex = null
   rows= 10
@@ -47,7 +50,6 @@ function init() {
   createGridArray()
   boatOrient()
   render()
-
 }
 
 function handleClick(event) {
@@ -61,10 +63,10 @@ function handleClick(event) {
 
   // boats can be selected is the gameGrid staste is null
   // this allows a player to change thier mind about which boat to place
-  if ((gameGridState === null || gameGridState === 'place') && event.target.className === "boat" 
-      && event.target.is !== "sideBar") {
+  if ((gameGridState === null || gameGridState === 'place') && event.target.className === "boat" && event.target.is !== "sideBar") {
         selectBoat(event.target.id)
         gameGridState = 'place'
+        messages.innerHTML = `<h2>Please place the ${boatName} now<h2>`
       }
 
   //this handles a click on the grid to place a boat
@@ -102,22 +104,29 @@ if (gameGridState === 'guess' && event.target.id !== "battleshipGrid"
 // select the proper boat from the boatsArray
 // and set the selectedboat variable for the rest of the current turn
 function selectBoat (selectBoat) {
-  console.log('this is selectBoat')
   for (let i=0; i<boatsArray.length;i++){
-    if(boatsArray[i].boatType === selectBoat && boatsArray[i].placed === false){
+    // Send messages to select another boat
+    // if (boatsArray[i].placed){
+    //   selectedBoat = boatsArray[i]
+    //   boatName = selectedBoat.boatType
+    //   messages.innerHTML=`<h2>The ${boatName} has already been placed. <br/> Please select anothe boat to place.<h2>`} 
+    //   else 
+    if(boatsArray[i].boatType === selectBoat && boatsArray[i].placed === false)
+    {
       selectedBoat = boatsArray[i]
+      boatName = selectedBoat.boatType
       boatLength = selectedBoat.length
-      console.log(boatsSelection[i])
+      boatsArrayIndex = i
       // change current selected boat name yellow
       boatsSelection[i].style.backgroundColor="yellow"
       if(previousSelectedBoat!==""){
-        previousSelectedBoat.style.backgroundColor=""} 
-      previousSelectedBoat = boatsSelection[i]
-      }
-    }
-  
-      
+        previousSelectedBoat.style.backgroundColor=""
+        if (previousSelectedBoat.placed===true){
+        }} 
+    previousSelectedBoat = boatsSelection[i]
+    } 
   }
+}
 
 
 function render(){
@@ -144,27 +153,49 @@ function render(){
 // function to place the boat on the grid
 // it adds the boat to the GameGridArray 
 function placeShip(){
-if (selectedBoat.placed === false){
-  if (shipOrientation==='horizontal'){
-    for (let i=0; i<boatLength; i++){
-      if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<10){
-        gameGridArray[columnIndex][rowIndex+i]='b'
-        selectedBoat.placed = true}
-        render()
+
+  let potentialBoatLocation =[]
+  
+  if (selectedBoat.placed === false){
+    // Each orientation of the ship is handeled in its own if-statement
+    if (shipOrientation==='horizontal'){
+      // check to see if the potential boat location is actually clear of other boats
+      for (let i=0; i<boatLength; i++){
+        potentialBoatLocation.push(gameGridArray[columnIndex][rowIndex+i])
       }
+      if(potentialBoatLocation.includes("b")===false){
+        //actually place the boat and change the 'placed status to true'
+        for (let i=0; i<boatLength; i++){
+          
+            if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<10){
+              gameGridArray[columnIndex][rowIndex+i]='b'
+              selectedBoat.placed = true
+              //removes the placed boat from the available selection
+              boatsSelection[boatsArrayIndex].innerText=""
+            }
+          render()
+        }
+      }  
+    }
+    if (shipOrientation==='vertical' && columnIndex+boatLength<10){
+      for (let i=0; i<boatLength; i++){
+        potentialBoatLocation.push(gameGridArray[columnIndex+i][rowIndex])
+      }
+      if(potentialBoatLocation.includes("b")===false){
+      for (let i=0; i<boatLength; i++){
+        if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
+        gameGridArray[columnIndex+i][rowIndex]='b'
+        selectedBoat.placed = true
+        boatsSelection[boatsArrayIndex].innerText=""}
+        render()
+    }
   }
-  if (shipOrientation==='vertical' && columnIndex+boatLength<10){
-    for (let i=0; i<boatLength; i++){
-      if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
-      gameGridArray[columnIndex+i][rowIndex]='b'
-      selectedBoat.placed = true}
-      render()
+    gameGridArray.forEach(e => console.log(e))
+    render()
   }
-  gameGridArray.forEach(e => console.log(e))
-  render()
+  }
 }
-}
-}
+
 // function to change the orientation of boat to place on grid
 // also updates the button name on screen
 function boatOrient(){
