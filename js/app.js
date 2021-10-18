@@ -153,7 +153,7 @@ function render(){
     placedStatus.push(boatsArray[i].placed)
   }
 
-  if(placedStatus.includes(false)!==true){
+  if(placedStatus.includes(false)!==true && gameGridState!=='winner'){
 
     messages.innerHTML=`<h2>Player 2 now its your turn to guess<h2>`
     gameGridState = 'guess'
@@ -192,8 +192,8 @@ function placeShip(){
       }
       if(potentialBoatLocation.includes("b")===false){
         //actually place the boat and change the 'placed status to true'
-        for (let i=0; i<=boatLength; i++){
-          if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<10){
+        for (let i=0; i<boatLength; i++){
+          if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<=10){
             gameGridArray[columnIndex][rowIndex+i]='b'
             selectedBoat.placed = true
             //removes the placed boat from the available selection
@@ -203,14 +203,14 @@ function placeShip(){
         }
       }  
     }
-    if (shipOrientation==='vertical' && columnIndex+boatLength<10){
+    if (shipOrientation==='vertical' && columnIndex+boatLength<=10){
       // check to see if the potential boat location is actually clear of other boats
       for (let i=0; i<boatLength; i++){
         potentialBoatLocation.push(gameGridArray[columnIndex+i][rowIndex])
       }
       if(potentialBoatLocation.includes("b")===false){
         //actually place the boat and change the 'placed status to true'
-        for (let i=0; i<=boatLength; i++){
+        for (let i=0; i<boatLength; i++){
           if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
             gameGridArray[columnIndex+i][rowIndex]='b'
             selectedBoat.placed = true
@@ -232,17 +232,31 @@ function boatOrient(){
 }
 
 function guessShip(){
-    
-  if(gameGridArray[columnIndex][rowIndex]==='b'){
-      gameGridArray[columnIndex][rowIndex]='h'
-  } else if (gameGridArray[columnIndex][rowIndex]==='w'){
-      gameGridArray[columnIndex][rowIndex]='m'
-  }
+  if(gameGridState!=='winner'){  
+    if(gameGridArray[columnIndex][rowIndex]==='b'){
+        gameGridArray[columnIndex][rowIndex]='h'
+    } else if (gameGridArray[columnIndex][rowIndex]==='w'){
+        gameGridArray[columnIndex][rowIndex]='m'
+    }
+  winnerYet()
   render()
+  }
   }
 
 function winnerYet(){
   console.log('this is whoWins')
+  let winnerCheck=[]
+  gameGridArray.forEach(arr => {
+    arr.forEach(element => {
+      winnerCheck.push(element)
+    })
+  })
+
+  if(winnerCheck.includes('b')===false){
+    gameGridState = 'winner'
+    console.log('winner. fleet sunk')
+    messages.innerHTML = `<h2>Player 2 you sank player 1s fleet!<h2>`
+  }
 }
 
 function createGrid(){
