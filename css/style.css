@@ -28,6 +28,9 @@ body {
 
 }
 
+.modal-footer {
+  text-align: center;
+}
 .grid-item {
   padding: .5em;
   border: 1px solid #ddd;

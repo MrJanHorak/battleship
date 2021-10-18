@@ -1,6 +1,7 @@
 /*-------------------------------- Constants --------------------------------*/
 // boat objects to record placement status and the boat status array
 // Boat arrays contain values to show thier current status
+import { getRules, getPlayer2 } from "../data/popup.js"
 
 const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
                     {boatType: 'battleship', placed:false, length:4},
@@ -19,6 +20,8 @@ const sideBar = document.querySelector('#sideBar')
 const boatsSelection = document.querySelectorAll('.boat')
 const boatOrientationButton = document.querySelector("#horVer")
 const messages = document.querySelector('#messages')
+const popup = document.querySelector('.modal-body')
+const popupTitel = document.querySelector('#popupTitle')
 
 /*----------------------------- Event Listeners -----------------------------*/
 selectedGrid.addEventListener("click", handleClick)
@@ -50,6 +53,7 @@ function init() {
   createGrid()
   createGridArray()
   boatOrient()
+  popupModal()
   render()
 }
 
@@ -155,6 +159,7 @@ function render(){
 
   if(placedStatus.includes(false)!==true && gameGridState!=='winner'){
 
+    popupModal()
     messages.innerHTML=`<h2>Player 2 now its your turn to guess<h2>`
     gameGridState = 'guess'
     if (gameGridState==='guess'){
@@ -258,6 +263,22 @@ function winnerYet(){
     messages.innerHTML = `<h2>Player 2 you sank player 1s fleet!<h2>`
   }
 }
+
+function popupModal(){
+  if(gameGridState===null){
+    popup.innerHTML = getRules()   
+  $("#popModul").modal()
+  }
+
+  if (gameGridState==='guess'){
+    popupTitel.innerText="Player 2 It's your turn!"
+    popup.innerHTML = getPlayer2
+    $("#popModul").modal()
+
+  }
+
+}
+
 
 function createGrid(){
   
