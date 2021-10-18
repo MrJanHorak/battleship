@@ -80,22 +80,25 @@ function handleClick(event) {
         columnIndex = parseInt(event.target.id.charAt(0))
         rowIndex = parseInt(event.target.id.charAt(1))
       }
-      placeShip()
-    }
+      
+    placeShip()
+      
+  }
 
   // When a boat is selected it changes the variable of selectedBoat to the specific boat
   // that variable helps fill the array with the info and length on which boat is placed where
 
   if (gameGridState === 'guess' && event.target.id !== "battleshipGrid" 
       && event.target.id!=="sideBar"){
-
-    console.log("this is handleClick in guess mode")
-    console.log("this got clicked:",event.target.className)
-
-  if(event.target.className==="grid-item"){
-    console.log(event.target.id,' This square was clicked')
-    }
-}
+        if (event.target.id.length<2){
+          columnIndex = 0
+          rowIndex = parseInt(event.target.id)
+        } else {
+          columnIndex = parseInt(event.target.id.charAt(0))
+          rowIndex = parseInt(event.target.id.charAt(1))
+        }
+  guessShip()
+  }
 }
 
 // select the proper boat from the boatsArray
@@ -125,38 +128,53 @@ function selectBoat (selectBoat) {
   }
 }
 
-
 // render gameGridState to reflect the current content of the array 
 // (boat placement/water/hit or miss)
 function render(){
-  console.log('this is render()')
-  let counter=0
-  gameGridArray.forEach(arr => {
-    arr.forEach(element => {
-      if(element ==='w'){
-      allSquares[counter].style.backgroundColor="blue"
-    } else if (element === 'b'){
-      allSquares[counter].style.backgroundColor="grey"
-    } else if (element === 'h'){
-      allSquares[counter].style.backgroundColor="red"
-    } else if (element === 'm'){
-      allSquares[counter].style.backgroundColor="white"
+
+  if (gameGridState===null || gameGridState==='place'){
+    let counter=0
+    gameGridArray.forEach(arr => {
+      arr.forEach(element => {
+        if(element ==='w'){
+        allSquares[counter].style.backgroundColor="blue"
+        } else if (element === 'b'){
+        allSquares[counter].style.backgroundColor="grey"
+        } 
+      counter++ 
+      })  
+    })
+  }
+
+  // creating an array to check each boats placement status
+  // if all boats are placed the game switched to guess mode.
+  let placedStatus = []
+  for (let i=0 ; i < boatsArray.length ; i++){
+    placedStatus.push(boatsArray[i].placed)
+  }
+
+  if(placedStatus.includes(false)!==true){
+
+    messages.innerHTML=`<h2>Player 2 now its your turn to guess<h2>`
+    gameGridState = 'guess'
+    if (gameGridState==='guess'){
+      let counter=0
+      gameGridArray.forEach(arr => {
+        arr.forEach(element => {
+          if(element ==='w'){
+          allSquares[counter].style.backgroundColor="blue"
+        } else if (element === 'b'){
+          allSquares[counter].style.backgroundColor="blue"
+        } else if (element === 'h'){
+          allSquares[counter].style.backgroundColor="red"
+        } else if (element === 'm'){
+          allSquares[counter].style.backgroundColor="white"
+        }
+        counter++ 
+        })  
+      })
     }
-    counter++ 
-  })  
-})
-
-// creating an array to check each boats placement status
-// if all boats are placed the game switched to guess mode.
-let placedStatus = []
-for (let i=0 ; i < boatsArray.length ; i++){
-  placedStatus.push(boatsArray[i].placed)
-}
-
-if(placedStatus.includes(false)!==true){
-messages.innerHTML=`<h2>Player 2 nows its your turn to guess<h2>`
-gameGridState = 'guess'
-}
+  }
 }
 
 // function to place the boat on the grid
@@ -175,13 +193,13 @@ function placeShip(){
       if(potentialBoatLocation.includes("b")===false){
         //actually place the boat and change the 'placed status to true'
         for (let i=0; i<=boatLength; i++){
-            if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<10){
-              gameGridArray[columnIndex][rowIndex+i]='b'
-              selectedBoat.placed = true
-              //removes the placed boat from the available selection
-              boatsSelection[boatsArrayIndex].innerText=""
-            }
-          render()
+          if(gameGridArray[columnIndex][rowIndex+i]==='w' && rowIndex+boatLength<10){
+            gameGridArray[columnIndex][rowIndex+i]='b'
+            selectedBoat.placed = true
+            //removes the placed boat from the available selection
+            boatsSelection[boatsArrayIndex].innerText=""
+          }
+        render()
         }
       }  
     }
@@ -211,29 +229,26 @@ function placeShip(){
 function boatOrient(){
   shipOrientation === 'vertical' ? shipOrientation = 'horizontal' : shipOrientation = 'vertical'
   boatOrientationButton.innerHTML = shipOrientation
-  console.log(shipOrientation)
-}
-function guessShip(){
-  console.log('This is Guess')
 }
 
-function hitOrMiss(){
-  console.log('this is hit or miss')
-}
+function guessShip(){
+    
+  if(gameGridArray[columnIndex][rowIndex]==='b'){
+      gameGridArray[columnIndex][rowIndex]='h'
+  } else if (gameGridArray[columnIndex][rowIndex]==='w'){
+      gameGridArray[columnIndex][rowIndex]='m'
+  }
+  render()
+  }
 
 function winnerYet(){
   console.log('this is whoWins')
-}
-
-function changeBoatStatus(){
-  console.log('this is changeBoatStatus')
 }
 
 function createGrid(){
   
   // figured this out by reading some old stackexchange notes
 
-  console.log('this is createGrid')
   //  set grid/cell styles by assigning CSS styles
   selectedGrid.style.setProperty('--grid-rows', rows)
   selectedGrid.style.setProperty('--grid-cols', columns)
@@ -257,15 +272,15 @@ function createGrid(){
 
 // Creates the array that contains the data of the game grid state. 
 // This array will store the boat location && used to compare guesses
-  function createGridArray(){
+function createGridArray(){
 
-    for (let c = 0 ;c < columns ; c++){
-      //creates an empty array
-      gameGridArray.push([])
-      //now pushes the w's into each index of gameGridArray at the index of [c]  
-      //this array of arrays corresponds with each row and column of the display grid
-      for (let r = 0 ; r < rows ; r++ ){
+  for (let c = 0 ;c < columns ; c++){
+    //creates an empty array
+    gameGridArray.push([])
+    //now pushes the w's into each index of gameGridArray at the index of [c]  
+    //this array of arrays corresponds with each row and column of the display grid
+    for (let r = 0 ; r < rows ; r++ ){
       gameGridArray[c].push('w')
-    }
-  }
-  }
+      } 
+  } 
+}
