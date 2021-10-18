@@ -238,8 +238,8 @@ function guessShip(){
     } else if (gameGridArray[columnIndex][rowIndex]==='w'){
         gameGridArray[columnIndex][rowIndex]='m'
     }
-  winnerYet()
   render()
+  winnerYet()
   }
   }
 
@@ -272,7 +272,6 @@ function createGrid(){
   // Class name and individual cell id's are also assigned at this point
   for (let c = 0; c<(rows * columns);c++){
     let cell = document.createElement("div");
-    cell.innerText = (c)
     selectedGrid.appendChild(cell).setAttribute('class','grid-item')
     selectedGrid.appendChild(cell).setAttribute('id' ,`${c}`)
   }

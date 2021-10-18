@@ -58,4 +58,10 @@ body {
   background-color: blanchedalmond;
   margin-left: 0;
   grid-area: "side";
+  text-align: left;
+}
+
+#sideBar img{
+  width: auto;
+  height: 5VH;
 }
