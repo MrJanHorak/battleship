@@ -143,7 +143,6 @@ body.dark {
   width: 75px;
   height: 25px;
   margin:auto;
-
 }
 
 #destroyer {
@@ -153,20 +152,17 @@ body.dark {
   width: 75px;
   height: 25px;
   margin:auto;
-
 }
 
 #light-dark-button {
   background-color: var(--light-dark-btn-bg);
   background-image: var(--light-dark-btn-bg);
-
 }
 
 #light-dark-button::after {
   border: none;
   color: var(--inverted-btn-text-color);
   content: var(--light-dark-btn-content);
-
 }
 
 #gameView {
@@ -199,9 +195,13 @@ body.dark {
   font-size: 17px;
   padding:0;
   margin:auto;
+  background-color:rgba(18, 70, 13, 0.9);
+  color: yellow;
 }
 
 #messages {
   font-size: 20px;
+  background-color: rgb(12, 102, 24);
+  color: rgb(rgb(255, 251, 0)
 }
 
