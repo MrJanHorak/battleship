@@ -12,24 +12,24 @@
   <script defer src="./js/app.js" type="module"></script>
 </head>
 <body>
-
-
-
   <h1>Battleship!</h1>
   <div id="gameView">
-  <div id="battleshipGrid"> </div>
-  <div id="sideBar"><h2>Game Stats</h2>
-  <div class="boats">
-    <div class="boat" draggable="true" id="carrier"><img src="./images/5longBoat.png"></div>
-    <div class="boat" draggable="true" id="battleship"><img src="./images/4long.png"></div>
-    <div class="boat" draggable="true" id="submarine"><img src="./images/3longboat.png"></div>
-    <div class="boat" draggable="true" id="cruiser"><img src="./images/3longboat.png"></div>
-    <div class="boat" draggable="true" id="destroyer"><img src="./images/2longBoat.png"></div>
-    <div class="btn"><button id="horVer">horizontal</button></div>
-    <div class="btn"><button id="drkMde">dark mode</button></div>
+    <div id="battleshipGrid"> </div>
+    <div id="sideBar"><h2>Game Stats</h2>
+      <div class="boats">
+        <div class="boat" draggable="true"  id="carrier">carrier</div>
+        <div class="boat" draggable="true"  id="battleship">battleship</div>
+        <div class="boat" draggable="true"  id="submarine">submarine</div>
+        <div class="boat" draggable="true"  id="cruiser">cruiser</div>
+        <div class="boat" draggable="true"  id="destroyer">destroyer</div>
+        <div class="btn-container">
+          <button class="btn" id="horVer">horizontal</button></div>
+          <button class="btn" id="light-dark-button"></button></div>
+        </div>
+      </div>
+    </div>
   </div>
-  </div>
-</div>
+  
   <div id="messages"><h2>Game Play messages go here.</h2></div>
 
 <!-- Modal -->

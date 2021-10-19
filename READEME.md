@@ -8,7 +8,7 @@ Minimal viable Game setup
 setup game variables
 
   * one array of arrays for the board (10 x 10 grid)
-      // html divs and css grid areas?
+      // html divs and css grid areas
   * 5 boat arrays or objects 
     * carrier 5 indexes long
     * battleship 4 inxeses long

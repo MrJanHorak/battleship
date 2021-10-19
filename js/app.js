@@ -11,23 +11,37 @@ const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numberOfHits, numOfGuesses, shipOrientation, whoWins, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex
+let numOfGuesses, shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop
 
 
 /*------------------------ Cached Element References ------------------------*/
 const selectedGrid = document.querySelector("#battleshipGrid")
 const sideBar = document.querySelector('#sideBar')
 const boatsSelection = document.querySelectorAll('.boat')
-const boatOrientationButton = document.querySelector("#horVer")
 const messages = document.querySelector('#messages')
 const popup = document.querySelector('.modal-body')
 const popupTitel = document.querySelector('#popupTitle')
+const boatOrientationButton = document.querySelector("#horVer")
+const lightDarkBtn = document.querySelector("#light-dark-button")
+const body = document.querySelector("body")
+
 
 /*----------------------------- Event Listeners -----------------------------*/
 selectedGrid.addEventListener("click", handleClick)
 sideBar.addEventListener("click", handleClick)
 boatOrientationButton.addEventListener("click", boatOrient)
+lightDarkBtn.addEventListener("click", toggleLightDark)
+
+
+// boatsSelection.forEach(boat => {
+//   console.log(boat)
+//   boat.addEventListener("dragstart", dragStart)
+//   boat.addEventListener("dragend", dragEnd)
+// })
+
+
 /*-------------------------------- Functions --------------------------------*/
+checkDarkPref()
 init()
 
 function init() {
@@ -37,22 +51,21 @@ function init() {
   columnIndex = null
   rows= 10
   columns = 10
-  numberOfHits = 0
   numOfGuesses = 0
-  whoWins = null
   gameGridState = null
   gameGridArray = []
   shipOrientation = 'horizontal'
   selectedBoat = null
   boatLength = 0
   previousSelectedBoat = ""
+  loop=0
   messages.innerHTML = `<h2>Player 1 please begin placing boats.<h2>`
   // createGrid and createGridArray are only called once for the game set-up/reset
   // they will automatically create the html grid displayed and the corressponding 
   // array for the game state that is then used for the rest of the game play
   createGrid()
   createGridArray()
-  boatOrient()
+  //boatOrient()
   popupModal()
   render()
 }
@@ -69,6 +82,7 @@ function handleClick(event) {
   // boats can be selected is the gameGrid staste is null
   // this allows a player to change thier mind about which boat to place
   if ((gameGridState === null || gameGridState === 'place') && event.target.className === "boat" && event.target.is !== "sideBar") {
+    console.log('im in here')
         selectBoat(event.target.id)
         gameGridState = 'place'
         messages.innerHTML = `<h2>Please place the ${boatName} now<h2>`
@@ -158,9 +172,13 @@ function render(){
   }
 
   if(placedStatus.includes(false)!==true && gameGridState!=='winner'){
-
-    popupModal()
+    loop++
+    if (loop===1){
+    gameGridState = 'transition'
+    popupModal()}
     messages.innerHTML=`<h2>Player 2 now its your turn to guess<h2>`
+    rowIndex = null
+    columnIndex = null
     gameGridState = 'guess'
     if (gameGridState==='guess'){
       let counter=0
@@ -243,6 +261,8 @@ function guessShip(){
     } else if (gameGridArray[columnIndex][rowIndex]==='w'){
         gameGridArray[columnIndex][rowIndex]='m'
     }
+  numOfGuesses++
+  console.log(numOfGuesses)  
   render()
   winnerYet()
   }
@@ -270,15 +290,13 @@ function popupModal(){
   $("#popModul").modal()
   }
 
-  if (gameGridState==='guess'){
+  if (gameGridState==='transition'){
     popupTitel.innerText="Player 2 It's your turn!"
-    popup.innerHTML = getPlayer2
+    popup.innerHTML = getPlayer2()
     $("#popModul").modal()
-
   }
 
 }
-
 
 function createGrid(){
   
@@ -301,6 +319,13 @@ function createGrid(){
   // that is why I have to place it here and not in with the
   // cached elements on top.
   allSquares = document.querySelectorAll(".grid-item")
+  // allSquares.forEach(box => {
+  //   console.log(box)
+  //   box.addEventListener("dragenter", dragEnter)
+  //   box.addEventListener("dragover", dragOver)
+  //   box.addEventListener("dragleave", dragLeave)
+  //   box.addEventListener("drop" , drop)
+  // })
 
 }
 
@@ -318,3 +343,49 @@ function createGridArray(){
       } 
   } 
 }
+
+// function dragStart(event){
+//   this.className += ' hold'
+//   setTimeout(() => (this.className = 'invisible'), 0)
+//   console.log('dragStart',event)
+//   //event.dataTransfer.setData("MyDraggedElementId", evt.target.id);
+// }
+
+// function dragEnd(event){
+//   console.log('end')
+//   this.className = '.boat'
+// }
+
+// function dragEnter(event) {
+//   event.preventDefault();
+//   console.log('dragEnter',event)
+//   this.className += ' hovered'
+// }
+
+// function dragOver(event) {
+//   event.preventDefault();
+//   console.log('dragOver',event)
+// }
+
+// function dragLeave(event) {
+//   this.className = 'empty'
+//   console.log('dragLeave',event)
+// }
+
+// function drop(event) {
+//   this.className = 'empty'
+//   this.append(boatsSelection)
+//   console.log('drop',event)
+//   }
+
+function toggleLightDark(){
+  body.className = body.className === "dark" ? "" : "dark"
+}
+
+function checkDarkPref(){
+if (window.matchMedia("(prefers-color-scheme:dark)").matches && 
+    body.className !== "dark"
+    ) {
+  toggleLightDark()
+      }
+    }
