@@ -23,6 +23,12 @@ html {
 }
 
 body {
+  justify-content: center;
+  align-items: center;
+  grid-template-rows: auto;
+  display: grid;
+  grid-template-columns: 600px;
+  grid-template-rows: auto;
   --body-bg: #afb6ff;
   --btn-txt-color: #2a2a2a;
   --card-text-color: #3e3e3e;
@@ -36,7 +42,7 @@ body {
   font-family: 'Black Ops One', cursive; system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     text-align: center;
-    max-height: 
+    max-height: 900px;
 }
 
 body.dark {
@@ -55,9 +61,9 @@ body.dark {
 .btn {
   color:  var(--btn-txt-color);
   border: none;
-  min-width: 5vw;
-  font-weight: 600;
-  font-size: 2vw;
+  margin:4px;
+  min-width: 3vw;
+  font-size: 15px;
 }
 
 .modal-header{
@@ -81,14 +87,17 @@ body.dark {
   text-align: center;
 }
 
-.boat{
+.boats{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  margin: 1px;
+  flex-wrap: wrap;
+}
+.boat{
+  margin: .5px;
+  padding-top: 6px;
   min-width: 2.3vw;
-  font-size: 1.7vw;
-  padding: auto;
+  font-size: 12px;
 }
 
 /* .hold {
@@ -104,35 +113,36 @@ body.dark {
   /* background-image: url(../images/5longBoat.png);  */
   background-color: darkgray;
   background-size: cover;
-  width: 75%;
-  height:30px;
-  grid-area: "carrier";
+  width: 75px;
+  height:25px;
+  margin:auto;
 } 
 
 #battleship {
   /* background-image: url(../images/4long.png);  */
   background-color: darkgray;
   background-size: cover;
-  width: 75%;
-  height: 30px;
-
+  width: 75px;
+  height: 25px;
+  margin:auto;
 } 
 
 #submarine {
   /* background-image: url(../images/3longboat.png);  */
   background-color: darkgray;
   background-size: cover;
-  width: 75%;
-  height: 30px;
-
+  width: 75px;
+  height: 25px;
+  margin:auto;
 }
 
 #cruiser {
   /* background-image: url(../images/3longboat.png); */
   background-color: darkgray;
   background-size: cover;
-  width: 75%;
-  height: 30px;
+  width: 75px;
+  height: 25px;
+  margin:auto;
 
 }
 
@@ -140,8 +150,9 @@ body.dark {
   /* background-image: url(../images/2longBoat.png); */
   background-color: darkgray;
   background-size: cover;
-  width: 75%;
-  height: 30px;
+  width: 75px;
+  height: 25px;
+  margin:auto;
 
 }
 
@@ -161,19 +172,18 @@ body.dark {
 #gameView {
   justify-content: center;
   width: 70%;
-  height: 50vw;
+  height: auto;
   margin: auto;
   display: grid;
-  grid-template-columns: 70% 1fr;
+  grid-template-columns:100%;
   grid-template-rows: auto;
-  grid-template-areas: "header"
-                        "main side"
-                        "footer";
+  grid-template-areas:"main"
+                      "side";
 }
 
 #battleshipGrid {
   display: grid;
-  height: 100%;
+  height: 360px;
   grid-gap: .1em;
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
@@ -181,25 +191,17 @@ body.dark {
 }
 
 #sideBar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   background-color: rgba(255, 235, 205,.5);
-  margin-left: 1px;
-  height:100%;
-  grid-area: "footer";
-  text-align: center;
-  align-items: center;
+  height:auto;
 }
 
 #gamestat {
-
+  font-size: 17px;
+  padding:0;
+  margin:auto;
 }
 
 #messages {
-  grid-area:"footer";
+  font-size: 20px;
 }
-/* #sideBar img{
-  width: auto;
-  height: 5VH;
-} */
+

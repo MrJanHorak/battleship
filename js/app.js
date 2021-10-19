@@ -61,7 +61,7 @@ function init() {
   boatLength = 0
   previousSelectedBoat = ""
   loop=0
-  messages.innerHTML = `<h2>Player 1 please begin placing boats.<h2>`
+  messages.innerHTML = `Player 1 please begin placing boats.`
   // createGrid and createGridArray are only called once for the game set-up/reset
   // they will automatically create the html grid displayed and the corressponding 
   // array for the game state that is then used for the rest of the game play
@@ -85,7 +85,7 @@ function reset() {
   previousSelectedBoat = ""
   loop=0
   gameGridArray = []
-  messages.innerHTML = `<h2>Player 1 please begin placing boats.<h2>`
+  messages.innerHTML = `Player 1 please begin placing boats.`
   for (let i=0 ; i < boatsArray.length ; i++){
     boatsArray[i].placed=false
     boatsSelection[i].innerText=boatsArray[i].boatType
@@ -112,7 +112,7 @@ function handleClick(event) {
     console.log('im in here')
         selectBoat(event.target.id)
         gameGridState = 'place'
-        messages.innerHTML = `<h2>Please place the ${boatName} now<h2>`
+        messages.innerHTML = `Please place the ${boatName} now`
       }
 
   //this handles a click on the grid to place a boat
@@ -203,7 +203,7 @@ function render(){
     if (loop===1){
     gameGridState = 'transition'
     popupModal()}
-    messages.innerHTML=`<h2>Player 2 now its your turn to guess<h2>`
+    messages.innerHTML=`Player 2 now its your turn to guess`
     rowIndex = null
     columnIndex = null
     gameGridState = 'guess'
@@ -307,7 +307,7 @@ function winnerYet(){
   if(winnerCheck.includes('b')===false){
     gameGridState = 'winner'
     console.log('winner. fleet sunk')
-    messages.innerHTML = `<h2>Player 2 you sank player 1s fleet!<h2>`
+    messages.innerHTML = `Player 2 you sank player 1s fleet!`
   }
 }
 
@@ -346,14 +346,6 @@ function createGrid(){
   // that is why I have to place it here and not in with the
   // cached elements on top.
   allSquares = document.querySelectorAll(".grid-item")
-  // allSquares.forEach(box => {
-  //   console.log(box)
-  //   box.addEventListener("dragenter", dragEnter)
-  //   box.addEventListener("dragover", dragOver)
-  //   box.addEventListener("dragleave", dragLeave)
-  //   box.addEventListener("drop" , drop)
-  // })
-
 }
 
 // Creates the array that contains the data of the game grid state. 
@@ -370,40 +362,6 @@ function createGridArray(){
       } 
   } 
 }
-
-// function dragStart(event){
-//   this.className += ' hold'
-//   setTimeout(() => (this.className = 'invisible'), 0)
-//   console.log('dragStart',event)
-//   //event.dataTransfer.setData("MyDraggedElementId", evt.target.id);
-// }
-
-// function dragEnd(event){
-//   console.log('end')
-//   this.className = '.boat'
-// }
-
-// function dragEnter(event) {
-//   event.preventDefault();
-//   console.log('dragEnter',event)
-//   this.className += ' hovered'
-// }
-
-// function dragOver(event) {
-//   event.preventDefault();
-//   console.log('dragOver',event)
-// }
-
-// function dragLeave(event) {
-//   this.className = 'empty'
-//   console.log('dragLeave',event)
-// }
-
-// function drop(event) {
-//   this.className = 'empty'
-//   this.append(boatsSelection)
-//   console.log('drop',event)
-//   }
 
 function toggleLightDark(){
   body.className = body.className === "dark" ? "" : "dark"
