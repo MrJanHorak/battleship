@@ -24,6 +24,7 @@ const popupTitel = document.querySelector('#popupTitle')
 const boatOrientationButton = document.querySelector("#horVer")
 const lightDarkBtn = document.querySelector("#light-dark-button")
 const body = document.querySelector("body")
+const replay = document.querySelector("#replay")
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -31,6 +32,7 @@ selectedGrid.addEventListener("click", handleClick)
 sideBar.addEventListener("click", handleClick)
 boatOrientationButton.addEventListener("click", boatOrient)
 lightDarkBtn.addEventListener("click", toggleLightDark)
+replay.addEventListener("click", reset)
 
 
 // boatsSelection.forEach(boat => {
@@ -66,6 +68,31 @@ function init() {
   createGrid()
   createGridArray()
   //boatOrient()
+  popupModal()
+  render()
+}
+
+function reset() {
+  boatsArrayIndex = null
+  boatName = ""
+  rowIndex = null
+  columnIndex = null
+  numOfGuesses = 0
+  gameGridState = null
+  shipOrientation = 'horizontal'
+  selectedBoat = null
+  boatLength = 0
+  previousSelectedBoat = ""
+  loop=0
+  gameGridArray = []
+  messages.innerHTML = `<h2>Player 1 please begin placing boats.<h2>`
+  for (let i=0 ; i < boatsArray.length ; i++){
+    boatsArray[i].placed=false
+    boatsSelection[i].innerText=boatsArray[i].boatType
+    boatsSelection[i].style.backgroundColor= 'darkgrey'
+  }
+  console.log(boatsArray)
+  createGridArray()
   popupModal()
   render()
 }

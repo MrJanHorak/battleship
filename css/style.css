@@ -14,9 +14,12 @@ html {
 /* resets font size to be 62.5% of the user preference - 
    in most browser configurations this will be 10px */
 :root {
+  width: 100vw;
+  height: 100vh;
   font-size: 62.5%;
   --grid-cols: 1;
   --grid-rows: 1;
+
 }
 
 body {
@@ -30,14 +33,13 @@ body {
   --light-dark-btn-content: "Dark Mode";
   background-color: var(--body-bg);
   /* Use a system font, if none are available use an available sans-sarif font */
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: 'Black Ops One', cursive; system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     text-align: center;
-
+    max-height: 
 }
 
 body.dark {
-  
   --body-bg: #353953;
   --btn-text-color: #eaeaea;
   --card-text-color: #dedede;
@@ -48,21 +50,20 @@ body.dark {
   --light-dark-btn-content: "Light Mode";
   background-color: var(--body-bg);
   color:azure;
-
 }
 
 .btn {
   color:  var(--btn-txt-color);
   border: none;
+  min-width: 5vw;
   font-weight: 600;
-  font-size: 2.4rem;
-  font-family: var(--cursive);
+  font-size: 2vw;
 }
 
 .modal-header{
   text-align: center;
   background-color:darkgrey;
-  color: bla
+  color: black;
 }
 .modal-body{
   text-align: center;
@@ -81,70 +82,80 @@ body.dark {
 }
 
 .boat{
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  text-align: center;
   margin: 1px;
+  min-width: 2.3vw;
+  font-size: 1.7vw;
+  padding: auto;
 }
 
 /* .hold {
   border: solid 5px #e9e514;
-}
+}*/
 
-.hovered {
+/* .hovered {
   background: #e40e0e;
   border-style: dashed;
-} */
+}  */
 
-/* #carrier {
-  background-image: url(../images/5longBoat.png); 
+#carrier {
+  /* background-image: url(../images/5longBoat.png);  */
   background-color: darkgray;
-  background-size:cover;
-  width: 200px;
-  height:100%;
-} */
+  background-size: cover;
+  width: 75%;
+  height:30px;
+  grid-area: "carrier";
+} 
 
-/* #battleship {
-  background-image: url(../images/4long.png); 
+#battleship {
+  /* background-image: url(../images/4long.png);  */
   background-color: darkgray;
-  background-size:cover;
-  width: 150px;
-  height: 100%;
-} */
+  background-size: cover;
+  width: 75%;
+  height: 30px;
 
-/* #submarine {
-  background-image: url(../images/3longboat.png); 
-  background-color: darkgray;
-  background-size:cover;
-  width: 120px;
-  height: 100%;
-} */
+} 
 
-/* #cruiser {
-  background-image: url(../images/3longboat.png);
+#submarine {
+  /* background-image: url(../images/3longboat.png);  */
   background-color: darkgray;
-  background-size:cover;
-  width: 120px;
-  height:100%;
-  
-} */
+  background-size: cover;
+  width: 75%;
+  height: 30px;
 
-/* #destroyer {
-  background-image: url(../images/2longBoat.png);
+}
+
+#cruiser {
+  /* background-image: url(../images/3longboat.png); */
   background-color: darkgray;
-  background-size:cover;
-  width: 80px;
-  height: 100%;
-} */
+  background-size: cover;
+  width: 75%;
+  height: 30px;
+
+}
+
+#destroyer {
+  /* background-image: url(../images/2longBoat.png); */
+  background-color: darkgray;
+  background-size: cover;
+  width: 75%;
+  height: 30px;
+
+}
 
 #light-dark-button {
   background-color: var(--light-dark-btn-bg);
   background-image: var(--light-dark-btn-bg);
+
 }
 
 #light-dark-button::after {
   border: none;
   color: var(--inverted-btn-text-color);
   content: var(--light-dark-btn-content);
+
 }
 
 #gameView {
@@ -154,7 +165,10 @@ body.dark {
   margin: auto;
   display: grid;
   grid-template-columns: 70% 1fr;
-  grid-template-areas: "main side";
+  grid-template-rows: auto;
+  grid-template-areas: "header"
+                        "main side"
+                        "footer";
 }
 
 #battleshipGrid {
@@ -167,12 +181,24 @@ body.dark {
 }
 
 #sideBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: rgba(255, 235, 205,.5);
-  margin-left: 0;
-  grid-area: "side";
-  text-align: left;
+  margin-left: 1px;
+  height:100%;
+  grid-area: "footer";
+  text-align: center;
+  align-items: center;
 }
 
+#gamestat {
+
+}
+
+#messages {
+  grid-area:"footer";
+}
 /* #sideBar img{
   width: auto;
   height: 5VH;
