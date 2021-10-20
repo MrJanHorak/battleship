@@ -19,7 +19,6 @@ html {
   font-size: 62.5%;
   --grid-cols: 1;
   --grid-rows: 1;
-
 }
 
 body {
@@ -71,20 +70,21 @@ body.dark {
   background-color:darkgrey;
   color: black;
 }
+
 .modal-body{
   text-align: center;
   background-color:darkgrey;
   color: black
 }
+
 .modal-footer {
   text-align: center;
   background-color:darkgrey;
   color: black;
 }
+
 .grid-item {
-  padding: .5em;
-  border: 1px solid #ddd;
-  text-align: center;
+  background-size: cover;
 }
 
 .boats{
@@ -113,7 +113,6 @@ body.dark {
   /* background-image: url(../images/5longBoat.png);  */
   background-color: darkgray;
   background-size: cover;
-  width: 75px;
   height:25px;
   margin:auto;
 } 
@@ -122,7 +121,6 @@ body.dark {
   /* background-image: url(../images/4long.png);  */
   background-color: darkgray;
   background-size: cover;
-  width: 75px;
   height: 25px;
   margin:auto;
 } 
@@ -131,7 +129,6 @@ body.dark {
   /* background-image: url(../images/3longboat.png);  */
   background-color: darkgray;
   background-size: cover;
-  width: 75px;
   height: 25px;
   margin:auto;
 }
@@ -140,7 +137,6 @@ body.dark {
   /* background-image: url(../images/3longboat.png); */
   background-color: darkgray;
   background-size: cover;
-  width: 75px;
   height: 25px;
   margin:auto;
 }
@@ -149,7 +145,6 @@ body.dark {
   /* background-image: url(../images/2longBoat.png); */
   background-color: darkgray;
   background-size: cover;
-  width: 75px;
   height: 25px;
   margin:auto;
 }
@@ -180,10 +175,12 @@ body.dark {
 #battleshipGrid {
   display: grid;
   height: 360px;
-  grid-gap: .1em;
+  /* grid-gap: .1em; */
   grid-template-rows: repeat(var(--grid-rows), 1fr);
   grid-template-columns: repeat(var(--grid-cols), 1fr);
   grid-area: "main";
+  border: 4px solid rgba(12, 85, 223, .5);
+  background-color:rgba(12, 85, 223, .5);
 }
 
 #sideBar {

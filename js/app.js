@@ -24,6 +24,7 @@ const boatOrientationButton = document.querySelector("#horVer")
 const lightDarkBtn = document.querySelector("#light-dark-button")
 const body = document.querySelector("body")
 const replay = document.querySelector("#replay")
+const rules = document.querySelector("#rules")
 
 /*----------------------------- Event Listeners -----------------------------*/
 selectedGrid.addEventListener("click", handleClick)
@@ -31,6 +32,7 @@ sideBar.addEventListener("click", handleClick)
 boatOrientationButton.addEventListener("click", boatOrient)
 lightDarkBtn.addEventListener("click", toggleLightDark)
 replay.addEventListener("click", init)
+rules.addEventListener("click", popupModal)
 
 /*-------------------------------- Functions --------------------------------*/
 checkDarkPref()
@@ -67,7 +69,6 @@ function init() {
   messages.innerHTML = `Player 1 please begin placing boats.`
 
   createGridArray()
-  popupModal()
   render()
 }
 
@@ -78,7 +79,6 @@ function handleClick(event) {
   // parent <Div> is not computed. When a click on the grid happens and 
   // a boat is activated the boat grid length is placed in the grid array. 
   // The orientation info and length of boat need to be passed on and computed.
-
 
   // boats can be selected is the gameGrid staste is null
   // this allows a player to change thier mind about which boat to place
@@ -104,6 +104,11 @@ function handleClick(event) {
   // When a boat is selected it changes the variable of selectedBoat 
   // to the specific boat that variable helps fill the array with the 
   // info and length on which boat is placed where
+
+  if (gameGridState==='transition'){
+    rowIndex = null
+    columnIndex = null
+  }
 
   if (gameGridState === 'guess' && event.target.id !== "battleshipGrid" 
       && event.target.id!=="sideBar"){
@@ -149,9 +154,9 @@ function render(){
     gameGridArray.forEach(arr => {
       arr.forEach(element => {
         if(element ==='w'){
-        allSquares[counter].style.backgroundColor="blue"
+        allSquares[counter].style.backgroundImage = "url(../images/battleshipgrid.jpg)"
         } else if (element === 'b'){
-        allSquares[counter].style.backgroundColor="grey"
+        allSquares[counter].style.backgroundImage = "url(../images/battleshipgridboat.jpg)"
         } 
       counter++ 
       })  
@@ -167,25 +172,26 @@ function render(){
 
   if(placedStatus.includes(false)!==true && gameGridState!=='winner'){
     loop++
+    rowIndex = null
+    columnIndex = null
     if (loop===1){
     gameGridState = 'transition'
     popupModal()}
     messages.innerHTML=`Player 2 now its your turn to guess`
-    rowIndex = null
-    columnIndex = null
     gameGridState = 'guess'
+    //start timer()
     if (gameGridState==='guess'){
       let counter=0
       gameGridArray.forEach(arr => {
         arr.forEach(element => {
           if(element ==='w'){
-          allSquares[counter].style.backgroundColor="blue"
+          allSquares[counter].style.backgroundImage = "url(../images/battleshipgrid.jpg)"
         } else if (element === 'b'){
-          allSquares[counter].style.backgroundColor="blue"
+          allSquares[counter].style.backgroundImage = "url(../images/battleshipgrid.jpg)"
         } else if (element === 'h'){
-          allSquares[counter].style.backgroundColor="red"
+          allSquares[counter].style.backgroundImage = "url(../images/battleshipgridhit.jpg)"
         } else if (element === 'm'){
-          allSquares[counter].style.backgroundColor="white"
+          allSquares[counter].style.backgroundImage = "url(../images/battleshipgridmiss.jpg)"
         }
         counter++ 
         })  
@@ -234,7 +240,7 @@ function placeShip(){
             gameGridArray[columnIndex+i][rowIndex]='b'
             selectedBoat.placed = true
             //removes the placed boat from the available selection
-            boatsSelection[boatsArrayIndex].innerText=""
+            boatsSelection[boatsArrayIndex].style.visibility="hidden"
           }
         }
         render()
@@ -251,7 +257,7 @@ function boatOrient(){
 }
 
 function guessShip(){
-  if(gameGridState!=='winner'){  
+  if(gameGridState!=='winner' && gameGridState==='guess'){  
     if(gameGridArray[columnIndex][rowIndex]==='b'){
         gameGridArray[columnIndex][rowIndex]='h'
     } else if (gameGridArray[columnIndex][rowIndex]==='w'){
@@ -295,8 +301,6 @@ function popupModal(){
 
 function createGrid(){
   
-  // figured this out by reading some old stackexchange notes
-
   //  set grid/cell styles by assigning CSS styles
   selectedGrid.style.setProperty('--grid-rows', rows)
   selectedGrid.style.setProperty('--grid-cols', columns)
