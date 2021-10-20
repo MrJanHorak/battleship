@@ -61,8 +61,8 @@ body.dark {
   color:  var(--btn-txt-color);
   border: none;
   margin:4px;
-  min-width: 3vw;
-  font-size: 15px;
+  width: 90px;
+  font-size: 10px;
 }
 
 .modal-header{
@@ -93,6 +93,7 @@ body.dark {
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .boat{
   margin: .5px;
   padding-top: 6px;
@@ -100,6 +101,13 @@ body.dark {
   font-size: 12px;
 }
 
+.form-switch {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
 /* .hold {
   border: solid 5px #e9e514;
 }*/
@@ -147,17 +155,6 @@ body.dark {
   background-size: cover;
   height: 25px;
   margin:auto;
-}
-
-#light-dark-button {
-  background-color: var(--light-dark-btn-bg);
-  background-image: var(--light-dark-btn-bg);
-}
-
-#light-dark-button::after {
-  border: none;
-  color: var(--inverted-btn-text-color);
-  content: var(--light-dark-btn-content);
 }
 
 #gameView {

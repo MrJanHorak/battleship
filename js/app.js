@@ -11,7 +11,7 @@ const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numOfGuesses, shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop
+let numOfGuesses, shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses
 
 /*------------------------ Cached Element References ------------------------*/
 const selectedGrid = document.querySelector("#battleshipGrid")
@@ -21,10 +21,11 @@ const messages = document.querySelector('#messages')
 const popup = document.querySelector('.modal-body')
 const popupTitel = document.querySelector('#popupTitle')
 const boatOrientationButton = document.querySelector("#horVer")
-const lightDarkBtn = document.querySelector("#light-dark-button")
+const lightDarkBtn = document.querySelector(".form-check")
 const body = document.querySelector("body")
 const replay = document.querySelector("#replay")
 const rules = document.querySelector("#rules")
+const stats = document.querySelector("#gamestat")
 
 /*----------------------------- Event Listeners -----------------------------*/
 selectedGrid.addEventListener("click", handleClick)
@@ -57,6 +58,9 @@ function init() {
   boatLength = 0
   previousSelectedBoat = ""
   loop=0
+  ammo = 60
+  hits = 0
+  misses = 0
 
   //this is needed for the reset button to properly reset the game
   for (let i=0 ; i < boatsArray.length ; i++){
@@ -67,6 +71,7 @@ function init() {
   }
 
   messages.innerHTML = `Player 1 please begin placing boats.`
+  stats.textContent = "Game Pieces"
 
   createGridArray()
   render()
@@ -178,6 +183,7 @@ function render(){
     gameGridState = 'transition'
     popupModal()}
     messages.innerHTML=`Player 2 now its your turn to guess`
+    stats.textContent = "Game Stats"
     gameGridState = 'guess'
     //start timer()
     if (gameGridState==='guess'){
@@ -194,7 +200,16 @@ function render(){
           allSquares[counter].style.backgroundImage = "url(../images/battleshipgridmiss.jpg)"
         }
         counter++ 
-        })  
+        boatsSelection[0].style.visibility='visible'
+        boatsSelection[0].style.background= '#D7D1E6'
+        boatsSelection[0].textContent=`Ammo: ${ammo}`
+        boatsSelection[1].style.visibility='visible'
+        boatsSelection[1].style.background= '#D7D1E6'
+        boatsSelection[1].textContent=`hits: ${hits}`
+        boatsSelection[2].style.visibility='visible'
+        boatsSelection[2].style.backgroundColor='#D7D1E6'
+        boatsSelection[2].textContent=`misses: ${misses}`
+      })  
       })
     }
   }
@@ -260,11 +275,15 @@ function guessShip(){
   if(gameGridState!=='winner' && gameGridState==='guess'){  
     if(gameGridArray[columnIndex][rowIndex]==='b'){
         gameGridArray[columnIndex][rowIndex]='h'
+        hits++
     } else if (gameGridArray[columnIndex][rowIndex]==='w'){
         gameGridArray[columnIndex][rowIndex]='m'
+        misses++
     }
   numOfGuesses++
-  console.log(numOfGuesses)  
+  ammo--
+  console.log(hits)
+  console.log(misses)
   render()
   winnerYet()
   }
@@ -289,7 +308,7 @@ function winnerYet(){
 function popupModal(){
   if(gameGridState===null){
     popup.innerHTML = getRules()   
-  $("#popModul").modal()
+  $('#popModul').modal()
   }
 
   if (gameGridState==='transition'){
