@@ -11,7 +11,7 @@ const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numOfGuesses, shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses
+let numOfGuesses, shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses, timeLeft
 
 /*------------------------ Cached Element References ------------------------*/
 const selectedGrid = document.querySelector("#battleshipGrid")
@@ -58,9 +58,10 @@ function init() {
   boatLength = 0
   previousSelectedBoat = ""
   loop=0
-  ammo = 61
+  ammo = 51
   hits = 0
   misses = 0
+  timeLeft = 30
 
   //this is needed for the reset button to properly reset the game
   for (let i=0 ; i < boatsArray.length ; i++){
@@ -180,8 +181,10 @@ function render(){
     rowIndex = null
     columnIndex = null
     if (loop===1){
-    gameGridState = 'transition'
-    popupModal()}
+      gameGridState = 'transition'
+      popupModal()
+      timer()
+    }
     messages.innerHTML=`Player 2 now its your turn to guess`
     stats.textContent = "Game Stats"
     gameGridState = 'guess'
@@ -200,19 +203,27 @@ function render(){
           allSquares[counter].style.backgroundImage = "url(../images/battleshipgridmiss.jpg)"
         }
         counter++ 
-        boatsSelection[0].style.visibility='visible'
-        boatsSelection[0].style.background= '#D7D1E6'
-        boatsSelection[0].textContent=`Ammo: ${ammo}`
-        boatsSelection[1].style.visibility='visible'
-        boatsSelection[1].style.background= '#D7D1E6'
-        boatsSelection[1].textContent=`hits: ${hits}`
-        boatsSelection[2].style.visibility='visible'
-        boatsSelection[2].style.backgroundColor='#D7D1E6'
-        boatsSelection[2].textContent=`misses: ${misses}`
+        guessStats()
       })  
       })
     }
   }
+}
+
+
+// Just a helper function to manage the set-up and output of the guessing stats
+function guessStats() {
+  boatsSelection[0].style.visibility='visible'
+  boatsSelection[0].style.background= 'transparent'
+  boatsSelection[0].textContent=`Ammo: ${ammo}`
+  boatsSelection[1].style.visibility='visible'
+  boatsSelection[1].style.background= 'transparent'
+  boatsSelection[1].textContent=`hits: ${hits}`
+  boatsSelection[2].style.visibility='visible'
+  boatsSelection[2].style.backgroundColor='transparent'
+  boatsSelection[2].textContent=`misses: ${misses}`
+  boatsSelection[4].style.visibility='visible'
+  boatsSelection[4].style.backgroundColor='transparent'
 }
 
 // function to place the boat on the grid
@@ -231,8 +242,6 @@ function placeShip(){
       if(potentialBoatLocation.includes("b")===false){
         //actually place the boat and change the 'placed status to true'
         for (let x=0; x<boatLength; x++){
-          console.log('line boat:',gameGridArray[columnIndex])
-          console.log('column index:',columnIndex)
           if(gameGridArray[columnIndex][rowIndex+x]==='w' && rowIndex+boatLength<=10){
             gameGridArray[columnIndex][rowIndex+x]='b'
             selectedBoat.placed = true
@@ -282,27 +291,40 @@ function guessShip(){
     }
   numOfGuesses++
   ammo--
-  console.log(hits)
-  console.log(misses)
   render()
   winnerYet()
   }
   }
 
 function winnerYet(){
-  console.log('this is whoWins')
   let winnerCheck=[]
   gameGridArray.forEach(arr => {
     arr.forEach(element => {
       winnerCheck.push(element)
     })
   })
-
+  console.log(timeLeft)
   if(winnerCheck.includes('b')===false){
     gameGridState = 'winner'
-    console.log('winner. fleet sunk')
     messages.innerHTML = `Player 2 you sank player 1s fleet!`
+  } else if (ammo === 0){
+    gameGridState = 'winner'
+    messages.innerHTML = `Player 2 you ran out of ammo!<br />You Lost!!`
+  } else if (timeLeft === 0){
+    gameGridState = 'winner'
+    messages.innerHTML = `Player 2 you ran out of time!<br />You Lost!!`
   }
+}
+
+function timer() {
+  let countdown = setInterval(()=> {
+  boatsSelection[4].textContent = `${timeLeft} seconds`
+  timeLeft -=1
+  if (timeLeft<=0) {
+    boatsSelection[4].textContent = "Time's up!"
+    winnerYet()
+    clearInterval(countdown)
+  }}, 1000)
 }
 
 function popupModal(){

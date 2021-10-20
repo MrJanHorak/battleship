@@ -29,7 +29,6 @@ body {
   grid-template-columns: 600px;
   grid-template-rows: auto;
   --btn-txt-color: #2a2a2a;
-  --inverted-btn-text-color: #eaeaea;
   --light-dark-btn-bg: #1d1e2b;
   --light-dark-btn-content: "Dark Mode";
   background-color: var(--body-bg);
