@@ -85,3 +85,4 @@ Future features:(DO NOT PRIORITIZE OR GET DISTRACTED BY THESE OPTIONS)
     --> both grids saved and compared
 * Computer Player
   
+Photo by <a href="https://freeimages.com/photographer/benstoate-47191">Ben Stoate</a> from <a href="https://freeimages.com">FreeImages</a>

@@ -58,7 +58,7 @@ function init() {
   boatLength = 0
   previousSelectedBoat = ""
   loop=0
-  ammo = 60
+  ammo = 61
   hits = 0
   misses = 0
 
