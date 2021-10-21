@@ -61,10 +61,10 @@ function init() {
   boatLength = 0
   previousSelectedBoat = ""
   loop=0
-  ammo = 51
+  ammo = 56
   hits = 0
   misses = 0
-  timeLeft = 30
+  timeLeft = 35
 
   //this resets the game pieces visibility at game reset
   for (let i=0 ; i < boatsArray.length ; i++){
@@ -158,9 +158,9 @@ function render(){
     gameGridArray.forEach(arr => {
       arr.forEach(element => {
         if(element ==='w'){
-        allSquares[counter].style.backgroundImage = "url(../images/battleshipgrid.jpg)"
+        allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
         } else if (element === 'b'){
-        allSquares[counter].style.backgroundImage = "url(../images/battleshipgridboat.jpg)"
+        allSquares[counter].style.backgroundImage = "url(../images/boatmiddle.png)"
         } 
       counter++ 
       })  
@@ -192,14 +192,14 @@ function render(){
       gameGridArray.forEach(arr => {
         arr.forEach(element => {
           if(element ==='w'){
-          allSquares[counter].style.backgroundImage = "url(../images/battleshipgrid.jpg)"
+          allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
         } else if (element === 'b'){
-          allSquares[counter].style.backgroundImage = "url(../images/battleshipgrid.jpg)"
+          allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
         } else if (element === 'h'){
-          allSquares[counter].style.backgroundImage = "url(../images/battleshipgridhit.jpg)"
+          allSquares[counter].style.backgroundImage = "url(../images/boathitHoriz.png)"
           boom.play()
         } else if (element === 'm'){
-          allSquares[counter].style.backgroundImage = "url(../images/battleshipgridmiss.jpg)"
+          allSquares[counter].style.backgroundImage = "url(../images/oceansplashmiss.png)"
           splash.play()
         }
         counter++ 

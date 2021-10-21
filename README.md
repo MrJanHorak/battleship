@@ -8,7 +8,7 @@ In a post-pandemic world supply shortages and fear of viral contamination have p
 
 Player one has launched their fleet. Player two has been able to sneak a spy on board of the last ship. The realized they have been compromised and begins the attack by creating an explosion. However, the spy was captured and Player 1's Intel department is hacking the spy's hardware and will be able to remotely trigger Player 2's ships inoperable in 40 seconds!
 
-#[Play Battleship2022! Now!!!](https://battleship2022.netlify.app/)
+[Play Battleship2022! Now!!!](https://battleship2022.netlify.app/)
 
 Game Play:
 ==========

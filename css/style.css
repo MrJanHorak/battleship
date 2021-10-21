@@ -187,6 +187,11 @@ h1 {
   border: 7px solid rgba(66, 152, 239,.7);
 }
 
+.modal {
+  /* width: 300px; //size of modal */
+  margin: 12% auto; 
+  grid-area: 'main';
+}
 .grid-item:hover {
   border:3px solid crimson;
 }
