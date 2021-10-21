@@ -66,17 +66,10 @@ function init() {
   misses = 0
   timeLeft = 35
   selectedGridId =null
-
-  //this resets the game pieces visibility at game reset
-  for (let i=0 ; i < boatsArray.length ; i++){
-    boatsArray[i].placed=false
-    boatsSelection[i].textContent=''
-    boatsSelection[i].style.visibility = 'visible'
-  }
-
+  //setup resets the game piece containers needed for replay
+  setup()
   messages.innerHTML = `Player 1 please begin placing boats.`
   stats.textContent = "Game Pieces"
-
   createGridArray()
   render()
 }
@@ -154,11 +147,11 @@ function render(){
         if(element ==='w'){
         allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
         } else if (element === 'hb1'){
-        allSquares[counter].style.backgroundImage = "url(../images/boatfront.png)" 
+        allSquares[counter].style.backgroundImage = "url(../images/hb1.png)" 
         } else if (element === 'hb2'){
-        allSquares[counter].style.backgroundImage = "url(../images/boatmiddle.png)" 
+        allSquares[counter].style.backgroundImage = "url(../images/hb2.png)" 
         } else if (element === 'hb3'){
-        allSquares[counter].style.backgroundImage = "url(../images/boatend.png)" 
+        allSquares[counter].style.backgroundImage = "url(../images/hb3.png)" 
         } else if (element === 'vb1'){
         allSquares[counter].style.backgroundImage = "url(../images/vb1.png)" 
         } else if (element === 'vb2'){
@@ -201,24 +194,24 @@ function render(){
           allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
         } else if (element.charAt(1) === 'h'){
           if (element.charAt(2)=== '1'){
-            allSquares[counter].style.backgroundImage = "url(../images/boatfronthit.png)"
+            allSquares[counter].style.backgroundImage = "url(../images/eh1.png)"
             boom.play()
           } else if (element.charAt(2)=== '2'){
-            allSquares[counter].style.backgroundImage = "url(../images/boatmiddlehit.png)"
+            allSquares[counter].style.backgroundImage = "url(../images/eh2.png)"
             boom.play()
           } else if (element.charAt(2)=== '3') {
-            allSquares[counter].style.backgroundImage = "url(../images/boatendhit.png)"
+            allSquares[counter].style.backgroundImage = "url(../images/eh3.png)"
             boom.play()
           }
         } else if (element.charAt(1) === 'v'){
           if (element.charAt(2)=== '1'){
-            allSquares[counter].style.backgroundImage = "url(../images/boatfronthitVert.png)"
+            allSquares[counter].style.backgroundImage = "url(../images/ev1.png)"
             boom.play()
           } else if (element.charAt(2)=== '2'){
-            allSquares[counter].style.backgroundImage = "url(../images/boatmiddlehitVert.png)"
+            allSquares[counter].style.backgroundImage = "url(../images/ev2.png)"
             boom.play()
           } else if (element.charAt(2)=== '3'){
-            allSquares[counter].style.backgroundImage = "url(../images/boatendhitVert.png)"
+            allSquares[counter].style.backgroundImage = "url(../images/ev3.png)"
             boom.play()
           }
         } else if (element === 'm'){
@@ -250,6 +243,16 @@ function guessStats() {
   boatsSelection[4].style.backgroundImage= 'unset'
 }
 
+function setup() {
+  //this resets the game pieces visibility at game reset
+  for (let i=0 ; i < boatsArray.length ; i++){
+    boatsSelection[i].textContent=' '
+    boatsArray[i].placed=false
+    boatsSelection[i].style.visibility = 'visible'
+    boatsSelection[i].style.backgroundImage= "initial"
+  }
+}
+
 // function to place the boat on the grid
 // it adds the boat to the GameGridArray 
 function placeShip(){
@@ -261,7 +264,7 @@ function placeShip(){
     if (shipOrientation==='horizontal'){
       // check to see if the potential boat location is actually clear of other boats
       for (let i=0; i<boatLength; i++){
-        potentialBoatLocation.push(gameGridArray[columnIndex][rowIndex+i])
+        potentialBoatLocation.push(gameGridArray[columnIndex][rowIndex+i].charAt(1))
       }
       if(potentialBoatLocation.includes("b")===false){
         //actually place the boat and change the 'placed status to true'
@@ -285,18 +288,18 @@ function placeShip(){
     if (shipOrientation==='vertical' && columnIndex+boatLength<=10){
       // check to see if the potential boat location is actually clear of other boats
       for (let i=0; i<boatLength; i++){
-        potentialBoatLocation.push(gameGridArray[columnIndex+i][rowIndex])
+        potentialBoatLocation.push(gameGridArray[columnIndex+i][rowIndex].charAt(1))
       }
       if(potentialBoatLocation.includes("b")===false){
         //actually place the boat and change the 'placed status to true'
-        for (let i=0; i<boatLength; i++){
-          if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
-            if(i===0){
-              gameGridArray[columnIndex+i][rowIndex]='vb1'
-            } else if(i===boatLength-1){
-              gameGridArray[columnIndex+i][rowIndex]='vb3'
+        for (let b=0; b<boatLength; b++){
+          if(gameGridArray[columnIndex+b][rowIndex]==='w' ){
+            if(b===0){
+              gameGridArray[columnIndex+b][rowIndex]='vb1'
+            } else if(b===boatLength-1){
+              gameGridArray[columnIndex+b][rowIndex]='vb3'
             } else {
-              gameGridArray[columnIndex+i][rowIndex]='vb2'
+              gameGridArray[columnIndex+b][rowIndex]='vb2'
             }
             selectedBoat.placed = true
             //removes the placed boat from the available selection
@@ -319,24 +322,24 @@ function boatOrient(){
 function guessShip(){
   if(gameGridState!=='winner' && gameGridState==='guess'){  
     if(gameGridArray[columnIndex][rowIndex].charAt(0)==='h'){
-      if (element.charAt(2)=== '1'){
+      if (gameGridArray[columnIndex][rowIndex].charAt(2)=== '1'){
         gameGridArray[columnIndex][rowIndex]='eh1'
         hits++
-      } else if (element.charAt(2)=== '2'){
+      } else if (gameGridArray[columnIndex][rowIndex].charAt(2)=== '2'){
         gameGridArray[columnIndex][rowIndex]='eh2'
         hits++
-      } else if (element.charAt(2)=== '3'){
+      } else if (gameGridArray[columnIndex][rowIndex].charAt(2)=== '3'){
         gameGridArray[columnIndex][rowIndex]='eh3'
         hits++
       }
     } else if (gameGridArray[columnIndex][rowIndex].charAt(0)==='v'){
-      if (element.charAt(2)=== '1'){
+      if (gameGridArray[columnIndex][rowIndex].charAt(2)=== '1'){
         gameGridArray[columnIndex][rowIndex]='ev1'
         hits++
-      } else if (element.charAt(2)=== '2'){
+      } else if (gameGridArray[columnIndex][rowIndex].charAt(2)=== '2'){
         gameGridArray[columnIndex][rowIndex]='ev2'
         hits++
-      } else if (element.charAt(2)=== '3'){
+      } else if (gameGridArray[columnIndex][rowIndex].charAt(2)=== '3'){
         gameGridArray[columnIndex][rowIndex]='ev3'
         hits++
       }
@@ -358,7 +361,6 @@ function winnerYet(){
       winnerCheck.push(element.charAt(1))
     })
   })
-  console.log(winnerCheck)
   if(winnerCheck.includes('b')===false){
     gameGridState = 'winner'
     messages.innerHTML = `Player 2 you sank player 1s fleet!`
@@ -373,14 +375,15 @@ function winnerYet(){
 
 // countdown timer for player 2 starts as soon as gameState switches to guess
 function timer() {
-  let countdown = setInterval(()=> {
-  boatsSelection[4].textContent = `${timeLeft} seconds`
-  timeLeft -=1
-  if (timeLeft<=0) {
-    boatsSelection[4].textContent = "Time's up!"
-    winnerYet()
-    clearInterval(countdown)
-  }}, 1000)
+    let countdown = setInterval(()=> {
+    boatsSelection[4].textContent = `${timeLeft} seconds`
+    timeLeft -=1
+    if (timeLeft<=0) {
+      boatsSelection[4].textContent = "Time's up!"
+      winnerYet()
+      clearInterval(countdown)
+    }}, 1000)
+    
 }
 
 function popupModal(){

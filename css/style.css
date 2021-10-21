@@ -102,6 +102,9 @@ body.dark {
   background-size:cover;
 }
 
+.boat img {
+  width: 100%;
+}
 .rotated {
   transform: rotate(90deg);
 }
@@ -123,33 +126,33 @@ body.dark {
 }  */
 
 #carrier {
-  background-image: url(../images/5longBoat.png); 
-  background-size:cover;
+  /* background-image: url(../images/5longBoat.png); 
+  background-size:cover; */
   margin:auto;
 } 
 
 #battleship {
-  background-image: url(../images/4longBoat.png); 
-  background-size: cover;
+  /* background-image: url(../images/4longBoat.png); 
+  background-size: cover; */
   margin:auto;
 } 
 
 #submarine {
-  background-image: url(../images/3longBoat.png); 
-  background-size: 100%;
+  /* background-image: url(../images/3longBoat.png); 
+  background-size: 100%; */
   margin:auto;
 }
 
 #cruiser {
-  background-image: url(../images/3longBoat.png);
-  background-size:100% ;
+  /* background-image: url(../images/3longBoat.png);
+  background-size:100% ; */
   height: 35px;
   margin:auto;
 }
 
 #destroyer {
-  background-image: url(../images/2longBoat.png);
-  background-size: cover;
+  /* background-image: url(../images/2longBoat.png);
+  background-size: cover; */
   height: 35px;
   margin:auto;
 }
