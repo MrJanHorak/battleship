@@ -1,8 +1,11 @@
 /*-------------------------------- Constants --------------------------------*/
-// boat objects to record placement status and the boat status array
-// Boat arrays contain values to show thier current status
 import { getRules, getPlayer2 } from "../data/popup.js"
 
+const boom = new Audio('../audio/Explosion+7.wav')
+const splash = new Audio('../audio/wateresplash.wav')
+
+// boat objects to record placement status and the boat status array
+// Boat arrays contain values to show thier current status
 const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
                     {boatType: 'battleship', placed:false, length:4},
                     {boatType: 'submarine', placed:false, length:3},
@@ -19,7 +22,6 @@ const sideBar = document.querySelector('#sideBar')
 const boatsSelection = document.querySelectorAll('.boat')
 const messages = document.querySelector('#messages')
 const popup = document.querySelector('.modal-body')
-const popupTitel = document.querySelector('#popupTitle')
 const boatOrientationButton = document.querySelector("#horVer")
 const lightDarkBtn = document.querySelector(".form-check")
 const body = document.querySelector("body")
@@ -38,7 +40,9 @@ rules.addEventListener("click", popupModal)
 /*-------------------------------- Functions --------------------------------*/
 checkDarkPref()
 // createGrid is only called once for the game set-up
-// it automatically creates the html grid displayed and the corressponding 
+// it automatically creates the html grid displayed
+// if called in init() when the game is replayed it causes problems.
+// that is why it is here.  
 rows= 10
 columns = 10
 createGrid()
@@ -63,7 +67,7 @@ function init() {
   misses = 0
   timeLeft = 30
 
-  //this is needed for the reset button to properly reset the game
+  //this resets the game pieces visibility at game reset
   for (let i=0 ; i < boatsArray.length ; i++){
     boatsArray[i].placed=false
     boatsSelection[i].innerText=boatsArray[i].boatType
@@ -94,9 +98,10 @@ function handleClick(event) {
         messages.innerHTML = `Please place the ${boatName} now`
       }
 
-  // this handles a click on the grid to place a boat
+  //  this handles the click on the grid to place a boat
   if (gameGridState === 'place' && event.target.className === "grid-item" 
-      && event.target.id!=="battleshipGrid" && event.target.id!=="sideBar"){
+      && event.target.id!=="battleshipGrid" && event.target.id!=="sideBar")
+      {
       if (event.target.id.length<2){
         columnIndex = 0
         rowIndex = parseInt(event.target.id)
@@ -106,10 +111,6 @@ function handleClick(event) {
       }
     placeShip() 
   }
-
-  // When a boat is selected it changes the variable of selectedBoat 
-  // to the specific boat that variable helps fill the array with the 
-  // info and length on which boat is placed where
 
   if (gameGridState==='transition'){
     rowIndex = null
@@ -140,19 +141,17 @@ function selectBoat (selectBoat) {
       boatLength = selectedBoat.length
       boatsArrayIndex = i
 
-      // change current selected boat name yellow
+      // change current selected boat background to yellow
       boatsSelection[i].style.backgroundColor="yellow"
       if(previousSelectedBoat!==""){
         previousSelectedBoat.style.backgroundColor=""
-        if (previousSelectedBoat.placed===true){
-        }} 
+      } 
     previousSelectedBoat = boatsSelection[i]
     } 
   }
 }
 
 // render gameGridState to reflect the current content of the array 
-// (boat placement/water/hit or miss)
 function render(){
 
   if (gameGridState===null || gameGridState==='place'){
@@ -169,8 +168,9 @@ function render(){
     })
   }
 
-  // creating an array to check each boats placement status
-  // if all boats are placed the game is switched to guess mode.
+  // create an array to check each boats placement status
+  // if all boats are placed the gameGridState is switched
+  // first to a transition screen then to guess mode
   let placedStatus = []
   for (let i=0 ; i < boatsArray.length ; i++){
     placedStatus.push(boatsArray[i].placed)
@@ -188,7 +188,6 @@ function render(){
     messages.innerHTML=`Player 2 now its your turn to guess`
     stats.textContent = "Game Stats"
     gameGridState = 'guess'
-    //start timer()
     if (gameGridState==='guess'){
       let counter=0
       gameGridArray.forEach(arr => {
@@ -199,17 +198,18 @@ function render(){
           allSquares[counter].style.backgroundImage = "url(../images/battleshipgrid.jpg)"
         } else if (element === 'h'){
           allSquares[counter].style.backgroundImage = "url(../images/battleshipgridhit.jpg)"
+          boom.play()
         } else if (element === 'm'){
           allSquares[counter].style.backgroundImage = "url(../images/battleshipgridmiss.jpg)"
+          splash.play()
         }
         counter++ 
         guessStats()
-      })  
+        })  
       })
     }
   }
 }
-
 
 // Just a helper function to manage the set-up and output of the guessing stats
 function guessStats() {
@@ -294,7 +294,7 @@ function guessShip(){
   render()
   winnerYet()
   }
-  }
+}
 
 function winnerYet(){
   let winnerCheck=[]
@@ -303,7 +303,6 @@ function winnerYet(){
       winnerCheck.push(element)
     })
   })
-  console.log(timeLeft)
   if(winnerCheck.includes('b')===false){
     gameGridState = 'winner'
     messages.innerHTML = `Player 2 you sank player 1s fleet!`
@@ -328,13 +327,12 @@ function timer() {
 }
 
 function popupModal(){
-  if(gameGridState===null){
-    popup.innerHTML = getRules()   
+  if(gameGridState!=='transition'){
+    popup.innerHTML = getRules() 
   $('#popModul').modal()
   }
 
   if (gameGridState==='transition'){
-    popupTitel.innerText="Player 2 It's your turn!"
     popup.innerHTML = getPlayer2()
     $("#popModul").modal()
   }
