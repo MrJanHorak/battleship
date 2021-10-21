@@ -8,6 +8,8 @@ In a post-pandemic world supply shortages and fear of viral contamination have p
 
 Player one has launched their fleet. Player two has been able to sneak a spy on board of the last ship. The realized they have been compromised and begins the attack by creating an explosion. However, the spy was captured and Player 1's Intel department is hacking the spy's hardware and will be able to remotely trigger Player 2's ships inoperable in 40 seconds!
 
+#[Play Battleship2022! Now!!!](https://battleship2022.netlify.app/)
+
 Game Play:
 ==========
 
@@ -16,8 +18,6 @@ The game begins ready for Player 1 to deploy their fleet. To deploy a ship, a pl
 As soon the final boat is placed the Game switches into the Hotseat screen allowing player 2 to take the captain’s chair and begin guessing. A guess it made by clicking on the grid. If a guess is a hit, the tile turns red to symbolize the hit, if the guess is a miss, a white dot appears to show that a guess has already been made there.
 
 Player 2 may have an advantage of knowing where one of the boats is located, thanks to the committed and loyal spy, however time is against them as they make their guesses. Ammo is also limited, since you know, there is a global shortage of TP, good reading material and for some reason ammo.
-
-##[Play Battleship2022! Now!!!](https://battleship2022.netlify.app/)
 
 Screenshots
 ===========
@@ -43,8 +43,12 @@ Next Steps
 Original Wireframe
 ------------------
 ![Imgur](https://i.imgur.com/ZEWfpKH.png)
+
+
 [The original link](https://wireframe.cc/kP4kLt)
 ![Imgur](https://i.imgur.com/ZdFXLMo.png)
+
+
 [The original link](https://wireframe.cc/IXlIqW)
 
 Credits
