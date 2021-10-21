@@ -70,8 +70,7 @@ function init() {
   //this resets the game pieces visibility at game reset
   for (let i=0 ; i < boatsArray.length ; i++){
     boatsArray[i].placed=false
-    boatsSelection[i].innerText=boatsArray[i].boatType
-    boatsSelection[i].style.backgroundColor= 'darkgrey'
+    boatsSelection[i].textContent=''
     boatsSelection[i].style.visibility = 'visible'
   }
 
@@ -141,13 +140,6 @@ function selectBoat (selectBoat) {
       boatName = selectedBoat.boatType
       boatLength = selectedBoat.length
       boatsArrayIndex = i
-
-      // change current selected boat background to yellow
-      boatsSelection[i].style.backgroundColor="yellow"
-      if(previousSelectedBoat!==""){
-        previousSelectedBoat.style.backgroundColor=""
-      } 
-    previousSelectedBoat = boatsSelection[i]
     } 
   }
 }
@@ -207,9 +199,28 @@ function render(){
           allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
         } else if (element.charAt(1) === 'b'){
           allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
-        } else if (element === 'h'){
-          allSquares[counter].style.backgroundImage = "url(../images/boatHit.png)"
-          boom.play()
+        } else if (element.charAt(1) === 'h'){
+          if (element.charAt(2)=== '1'){
+            allSquares[counter].style.backgroundImage = "url(../images/boatfronthit.png)"
+            boom.play()
+          } else if (element.charAt(2)=== '2'){
+            allSquares[counter].style.backgroundImage = "url(../images/boatmiddlehit.png)"
+            boom.play()
+          } else if (element.charAt(2)=== '3') {
+            allSquares[counter].style.backgroundImage = "url(../images/boatendhit.png)"
+            boom.play()
+          }
+        } else if (element.charAt(1) === 'v'){
+          if (element.charAt(2)=== '1'){
+            allSquares[counter].style.backgroundImage = "url(../images/boatfronthitVert.png)"
+            boom.play()
+          } else if (element.charAt(2)=== '2'){
+            allSquares[counter].style.backgroundImage = "url(../images/boatmiddlehitVert.png)"
+            boom.play()
+          } else if (element.charAt(2)=== '3'){
+            allSquares[counter].style.backgroundImage = "url(../images/boatendhitVert.png)"
+            boom.play()
+          }
         } else if (element === 'm'){
           allSquares[counter].style.backgroundImage = "url(../images/oceansplashmiss.png)"
           splash.play()
@@ -225,16 +236,18 @@ function render(){
 // Just a helper function to manage the set-up and output of the guessing stats
 function guessStats() {
   boatsSelection[0].style.visibility='visible'
-  boatsSelection[0].style.background= 'transparent'
+  boatsSelection[0].style.backgroundImage= 'unset'
   boatsSelection[0].textContent=`Ammo: ${ammo}`
   boatsSelection[1].style.visibility='visible'
-  boatsSelection[1].style.background= 'transparent'
+  boatsSelection[1].style.backgroundImage= 'unset'
   boatsSelection[1].textContent=`hits: ${hits}`
   boatsSelection[2].style.visibility='visible'
-  boatsSelection[2].style.backgroundColor='transparent'
+  boatsSelection[2].style.backgroundImage= 'unset'
   boatsSelection[2].textContent=`misses: ${misses}`
+  boatsSelection[3].style.visibility='visible'
+  boatsSelection[3].style.backgroundImage= 'unset'
   boatsSelection[4].style.visibility='visible'
-  boatsSelection[4].style.backgroundColor='transparent'
+  boatsSelection[4].style.backgroundImage= 'unset'
 }
 
 // function to place the boat on the grid
@@ -302,13 +315,31 @@ function boatOrient(){
   boatOrientationButton.innerHTML = shipOrientation
 }
 
-
 // processes the users guesses and updates the coutners for ammo/hits and misses
 function guessShip(){
   if(gameGridState!=='winner' && gameGridState==='guess'){  
-    if(gameGridArray[columnIndex][rowIndex].charAt(1)==='b'){
-        gameGridArray[columnIndex][rowIndex]='h'
+    if(gameGridArray[columnIndex][rowIndex].charAt(0)==='h'){
+      if (element.charAt(2)=== '1'){
+        gameGridArray[columnIndex][rowIndex]='eh1'
         hits++
+      } else if (element.charAt(2)=== '2'){
+        gameGridArray[columnIndex][rowIndex]='eh2'
+        hits++
+      } else if (element.charAt(2)=== '3'){
+        gameGridArray[columnIndex][rowIndex]='eh3'
+        hits++
+      }
+    } else if (gameGridArray[columnIndex][rowIndex].charAt(0)==='v'){
+      if (element.charAt(2)=== '1'){
+        gameGridArray[columnIndex][rowIndex]='ev1'
+        hits++
+      } else if (element.charAt(2)=== '2'){
+        gameGridArray[columnIndex][rowIndex]='ev2'
+        hits++
+      } else if (element.charAt(2)=== '3'){
+        gameGridArray[columnIndex][rowIndex]='ev3'
+        hits++
+      }
     } else if (gameGridArray[columnIndex][rowIndex]==='w'){
         gameGridArray[columnIndex][rowIndex]='m'
         misses++
