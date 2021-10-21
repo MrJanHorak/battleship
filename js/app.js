@@ -14,7 +14,7 @@ const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let numOfGuesses, shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses, timeLeft
+let shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses, timeLeft
 
 /*------------------------ Cached Element References ------------------------*/
 const selectedGrid = document.querySelector("#battleshipGrid")
@@ -54,7 +54,6 @@ function init() {
   boatName = ""
   rowIndex = null
   columnIndex = null
-  numOfGuesses = 0
   gameGridState = null
   gameGridArray = []
   shipOrientation = 'horizontal'
@@ -151,7 +150,7 @@ function selectBoat (selectBoat) {
   }
 }
 
-// render gameGridState to reflect the current content of the array 
+// render gameGridState to reflect the current content of the gameGridArray 
 function render(){
 
   if (gameGridState===null || gameGridState==='place'){
@@ -274,12 +273,13 @@ function placeShip(){
 }
 
 // function to change the orientation of boat to place on grid
-// also updates the button name on screen
 function boatOrient(){
   shipOrientation === 'vertical' ? shipOrientation = 'horizontal' : shipOrientation = 'vertical'
   boatOrientationButton.innerHTML = shipOrientation
 }
 
+
+// processes the users guesses and updates the coutners for ammo/hits and misses
 function guessShip(){
   if(gameGridState!=='winner' && gameGridState==='guess'){  
     if(gameGridArray[columnIndex][rowIndex]==='b'){
@@ -289,13 +289,13 @@ function guessShip(){
         gameGridArray[columnIndex][rowIndex]='m'
         misses++
     }
-  numOfGuesses++
   ammo--
   render()
   winnerYet()
   }
 }
 
+// checks the various conditions of time/ammo and boats to see if there is a winner
 function winnerYet(){
   let winnerCheck=[]
   gameGridArray.forEach(arr => {
@@ -315,6 +315,7 @@ function winnerYet(){
   }
 }
 
+// countdown timer for player 2 starts as soon as gameState switches to guess
 function timer() {
   let countdown = setInterval(()=> {
   boatsSelection[4].textContent = `${timeLeft} seconds`
