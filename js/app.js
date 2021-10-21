@@ -14,7 +14,7 @@ const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses, timeLeft
+let shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses, timeLeft, selectedGridId
 
 /*------------------------ Cached Element References ------------------------*/
 const selectedGrid = document.querySelector("#battleshipGrid")
@@ -65,6 +65,7 @@ function init() {
   hits = 0
   misses = 0
   timeLeft = 35
+  selectedGridId =null
 
   //this resets the game pieces visibility at game reset
   for (let i=0 ; i < boatsArray.length ; i++){
@@ -101,6 +102,7 @@ function handleClick(event) {
   if (gameGridState === 'place' && event.target.className === "grid-item" 
       && event.target.id!=="battleshipGrid" && event.target.id!=="sideBar")
       {
+        selectedGridId=event.target.id
       if (event.target.id.length<2){
         columnIndex = 0
         rowIndex = parseInt(event.target.id)
@@ -159,8 +161,18 @@ function render(){
       arr.forEach(element => {
         if(element ==='w'){
         allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
-        } else if (element === 'b'){
-        allSquares[counter].style.backgroundImage = "url(../images/boatmiddle.png)"
+        } else if (element === 'hb1'){
+        allSquares[counter].style.backgroundImage = "url(../images/boatfront.png)" 
+        } else if (element === 'hb2'){
+        allSquares[counter].style.backgroundImage = "url(../images/boatmiddle.png)" 
+        } else if (element === 'hb3'){
+        allSquares[counter].style.backgroundImage = "url(../images/boatend.png)" 
+        } else if (element === 'vb1'){
+        allSquares[counter].style.backgroundImage = "url(../images/vb1.png)" 
+        } else if (element === 'vb2'){
+        allSquares[counter].style.backgroundImage = "url(../images/vb2.png)" 
+        } else if (element === 'vb3'){
+        allSquares[counter].style.backgroundImage = "url(../images/vb3.png)" 
         } 
       counter++ 
       })  
@@ -193,10 +205,10 @@ function render(){
         arr.forEach(element => {
           if(element ==='w'){
           allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
-        } else if (element === 'b'){
+        } else if (element.charAt(1) === 'b'){
           allSquares[counter].style.backgroundImage = "url(../images/oceantile.png)"
         } else if (element === 'h'){
-          allSquares[counter].style.backgroundImage = "url(../images/boathitHoriz.png)"
+          allSquares[counter].style.backgroundImage = "url(../images/boatHit.png)"
           boom.play()
         } else if (element === 'm'){
           allSquares[counter].style.backgroundImage = "url(../images/oceansplashmiss.png)"
@@ -242,7 +254,13 @@ function placeShip(){
         //actually place the boat and change the 'placed status to true'
         for (let x=0; x<boatLength; x++){
           if(gameGridArray[columnIndex][rowIndex+x]==='w' && rowIndex+boatLength<=10){
-            gameGridArray[columnIndex][rowIndex+x]='b'
+            if(x===0){
+              gameGridArray[columnIndex][rowIndex+x]='hb1'
+            }else if (x===boatLength-1){
+              gameGridArray[columnIndex][rowIndex+x]='hb3'
+            } else {
+              gameGridArray[columnIndex][rowIndex+x]='hb2'
+            }
             selectedBoat.placed = true
             //removes the placed boat from the available selection
             boatsSelection[boatsArrayIndex].style.visibility="hidden"
@@ -260,7 +278,13 @@ function placeShip(){
         //actually place the boat and change the 'placed status to true'
         for (let i=0; i<boatLength; i++){
           if(gameGridArray[columnIndex+i][rowIndex]==='w' ){
-            gameGridArray[columnIndex+i][rowIndex]='b'
+            if(i===0){
+              gameGridArray[columnIndex+i][rowIndex]='vb1'
+            } else if(i===boatLength-1){
+              gameGridArray[columnIndex+i][rowIndex]='vb3'
+            } else {
+              gameGridArray[columnIndex+i][rowIndex]='vb2'
+            }
             selectedBoat.placed = true
             //removes the placed boat from the available selection
             boatsSelection[boatsArrayIndex].style.visibility="hidden"
@@ -282,7 +306,7 @@ function boatOrient(){
 // processes the users guesses and updates the coutners for ammo/hits and misses
 function guessShip(){
   if(gameGridState!=='winner' && gameGridState==='guess'){  
-    if(gameGridArray[columnIndex][rowIndex]==='b'){
+    if(gameGridArray[columnIndex][rowIndex].charAt(1)==='b'){
         gameGridArray[columnIndex][rowIndex]='h'
         hits++
     } else if (gameGridArray[columnIndex][rowIndex]==='w'){
@@ -300,9 +324,10 @@ function winnerYet(){
   let winnerCheck=[]
   gameGridArray.forEach(arr => {
     arr.forEach(element => {
-      winnerCheck.push(element)
+      winnerCheck.push(element.charAt(1))
     })
   })
+  console.log(winnerCheck)
   if(winnerCheck.includes('b')===false){
     gameGridState = 'winner'
     messages.innerHTML = `Player 2 you sank player 1s fleet!`

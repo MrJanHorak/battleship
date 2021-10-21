@@ -101,6 +101,10 @@ body.dark {
   font-size: 12px;
 }
 
+.rotated {
+  transform: rotate(90deg);
+}
+
 .form-switch {
   display: flex;
   flex-direction: row;
