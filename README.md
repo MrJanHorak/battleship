@@ -54,6 +54,10 @@ Original Wireframe
 
 ![Imgur](https://i.imgur.com/ZEWfpKH.png?3)      ![Imgur](https://i.imgur.com/ZdFXLMo.png?2)
 
+Original Pseuodocode
+-------------------
+
+The original pseudo code is found in the root directory of this project.
 
 Credits
 -------
