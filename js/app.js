@@ -1,4 +1,4 @@
-/*-------------------------------- Constants --------------------------------*/
+/*---------------------------- Constants ------------------------------*/
 import { getRules, getPlayer2 } from "../data/popup.js"
 
 const boom = new Audio('../audio/Explosion+7.wav')
@@ -12,11 +12,11 @@ const boatsArray =[ {boatType: 'carrier', placed:false, length:5},
                     {boatType: 'cruiser', placed:false, length:3},
                     {boatType: 'destroyer', placed:false, length:2}]
 
-/*---------------------------- Variables (state) ----------------------------*/
+/*----------------------- Variables (state) ----------------------------*/
 
 let shipOrientation, gameGridState, rows, columns, selectedBoat, boatLength, allSquares, previousSelectedBoat, rowIndex, columnIndex, gameGridArray, boatName, boatsArrayIndex, loop, ammo, hits, misses, timeLeft, selectedGridId
 
-/*------------------------ Cached Element References ------------------------*/
+/*--------------------- Cached Element References ---------------------*/
 const selectedGrid = document.querySelector("#battleshipGrid")
 const sideBar = document.querySelector('#sideBar')
 const boatsSelection = document.querySelectorAll('.boat')
@@ -29,7 +29,7 @@ const replay = document.querySelector("#replay")
 const rules = document.querySelector("#rules")
 const stats = document.querySelector("#gamestat")
 
-/*----------------------------- Event Listeners -----------------------------*/
+/*-------------------------- Event Listeners --------------------------*/
 selectedGrid.addEventListener("click", handleClick)
 sideBar.addEventListener("click", handleClick)
 boatOrientationButton.addEventListener("click", boatOrient)
@@ -37,7 +37,7 @@ lightDarkBtn.addEventListener("click", toggleLightDark)
 replay.addEventListener("click", init)
 rules.addEventListener("click", popupModal)
 
-/*-------------------------------- Functions --------------------------------*/
+/*---------------------------- Functions ------------------------------*/
 checkDarkPref()
 // createGrid is only called once for the game set-up
 // it automatically creates the html grid displayed

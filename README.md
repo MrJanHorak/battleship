@@ -64,6 +64,8 @@ Credits
 Photo by https://freeimages.com/photographer/benstoate-47191 Ben Stoate from https://freeimages.com
 Audio from: https://www.freesoundeffects.com/
 
+Google Fonts: Black Ops One
+
 The grid background picture is a personal creation as are the boats. They were created using GIMP.
 The image of the explosion as well as the splash are from: 
 https://www.pngkey.com
