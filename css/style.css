@@ -41,6 +41,11 @@ body {
   color: yellow;
 }
 
+header {
+  width: 420px;
+  margin: auto;
+}
+
 body.dark {
   --btn-text-color: #eaeaea;
   --inverted-btn-text-color: #d8d8d8;
@@ -122,7 +127,8 @@ h1 {
   grid-template-columns:100%;
   grid-template-rows: auto;
   grid-template-areas:"main"
-                      "side";
+                      "footer"
+                      "messages";
 }
 
 #battleshipGrid {
@@ -137,7 +143,7 @@ h1 {
 #messages {
   font-size: 20px;
   background-color: rgba(90, 90, 90, 0.9);
-  grid-area: "side";
+  grid-area: "messages";
   padding: 5px;
 }
 
@@ -146,11 +152,13 @@ h1 {
   padding-bottom:9px;
   margin:auto;
   background-color:rgba(90, 90, 90, 0.9);
-  grid-area: "side";
+  grid-area: "footer";
 }
 
 #carrier {
   background-size:100%;
+  background-repeat: no-repeat;
+  background-position: center;
   margin:auto;
   width: 182px;
   height: 27px;
@@ -158,6 +166,8 @@ h1 {
 
 #battleship {
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   margin:auto;
   width: 150px;
   height: 25px;
@@ -165,6 +175,8 @@ h1 {
 
 #submarine {
   background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
   margin:auto;
   width: 100px;
   height:24px;
@@ -172,6 +184,8 @@ h1 {
 
 #cruiser {
   background-size:100% ;
+  background-repeat: no-repeat;
+  background-position: center;
   margin:auto;
   width: 100px;
   height: 24px;
@@ -179,6 +193,8 @@ h1 {
 
 #destroyer {
   background-size:contain ;
+  background-repeat: no-repeat;
+  background-position: center;
   margin:auto;
   width:50px;
   height: 22px;
@@ -191,3 +207,93 @@ h1 {
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
 }
+
+@media only screen and (min-width: 750px) {
+  body 
+    {
+      justify-content: center;
+      align-items: center;
+      grid-template-rows: auto;
+      display: grid;
+      grid-template-columns: 750px;
+      grid-template-rows: auto;
+      text-align: center;
+      max-height: 1500px;
+      margin: 9px auto;
+    }
+
+  header {
+    width: 742px;
+    margin:auto;
+  }
+  .boats{
+    margin-top: 20px;
+    align-content: space-between;
+  }
+  .boat{
+    
+  }
+  .buttons {
+    margin-top:25px;
+  }
+  #gameView {
+    /* justify-content:; */
+    /* width: 100%; */
+    height: auto;
+    margin: auto;
+    display:flex;
+    grid-template-columns: 75%  25%;
+    grid-template-rows: auto;
+    grid-template-areas:  "header"
+                          "main footer"
+                          "aside";
+    }
+    
+  #battleshipGrid {
+    display: grid;
+    margin-left: 0px;
+    width:550px;
+    height: 550px;
+    grid-template-rows: repeat(var(--grid-rows), 1fr);
+    grid-template-columns: repeat(var(--grid-cols), 1fr);
+    grid-area: "main";
+    border: 7px solid rgba(66, 152, 239,.7);
+    border-bottom-left-radius: 25px;
+  }
+  
+  #messages {
+    font-size: 20px;
+    background-color: rgba(90, 90, 90, 0.9);
+    grid-area: "aside";
+    margin:5px;
+    padding: 5px;
+    padding-top: 35px;
+    height:150px;
+  }
+  
+  #gamestat {
+    font-size: 17px;
+    padding-bottom:9px;
+    margin:2px;
+    background-color:rgba(90, 90, 90, 0.9);
+    grid-area: "footer";
+    padding: 5px;
+    margin-top:45px
+  }
+  
+  #sideBar {
+    background-color: rgba(66, 152, 239,.8);
+    height:550px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 0px;
+  }
+
+  #destroyer {
+    background-repeat: no-repeat;
+    background-position: center;
+    margin:auto;
+    width:150px;
+    height: 22px;
+    padding-top: 3px;
+  }
+} 
