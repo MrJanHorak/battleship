@@ -38,10 +38,10 @@ body {
   max-height: 900px;
   background-image: url(../images/ocean.jpg);
   background-size: cover;
+  color: yellow;
 }
 
 body.dark {
-
   --btn-text-color: #eaeaea;
   --inverted-btn-text-color: #d8d8d8;
   --light-dark-btn-bg: #444655;
@@ -51,16 +51,19 @@ body.dark {
   background-image: url(../images/oceandark.jpg);
 }
 
-/* h1{
-  background-color: blue;
-  width: 70%;
-  text-align: center;
-} */
+h1 {
+  background-color: crimson;
+  margin-top: 25px;
+  margin-bottom: 0;
+  padding: 8px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
 
 .btn {
   color:  var(--btn-txt-color);
   border: none;
-  margin:4px;
+  margin:10px 10px 0 10px;
   width: 90px;
   font-size: 10px;
 }
@@ -77,12 +80,6 @@ body.dark {
   color: black
 }
 
-.modal-footer {
-  text-align: center;
-  background-color:darkgrey;
-  color: black;
-}
-
 .grid-item {
   background-size: cover;
 }
@@ -92,99 +89,16 @@ body.dark {
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 5px;
 }
 
 .boat{
-  margin: .5px;
-  padding-top: 6px;
-  width: 80px;
   font-size: 12px;
-  background-size:cover;
-}
-
-.boat img {
-  width: 100%;
-}
-.rotated {
-  transform: rotate(90deg);
 }
 
 .form-switch {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
   font-size: 10px;
   font-family: Arial, Helvetica, sans-serif;
-}
-/* .hold {
-  border: solid 5px #e9e514;
-}*/
-
-/* .hovered {
-  background: #e40e0e;
-  border-style: dashed;
-}  */
-
-#carrier {
-  /* background-image: url(../images/5longBoat.png); 
-  background-size:cover; */
-  margin:auto;
-} 
-
-#battleship {
-  /* background-image: url(../images/4longBoat.png); 
-  background-size: cover; */
-  margin:auto;
-} 
-
-#submarine {
-  /* background-image: url(../images/3longBoat.png); 
-  background-size: 100%; */
-  margin:auto;
-}
-
-#cruiser {
-  /* background-image: url(../images/3longBoat.png);
-  background-size:100% ; */
-  height: 35px;
-  margin:auto;
-}
-
-#destroyer {
-  /* background-image: url(../images/2longBoat.png);
-  background-size: cover; */
-  height: 35px;
-  margin:auto;
-}
-
-#gameView {
-  justify-content: center;
-  width: 70%;
-  height: auto;
-  margin: auto;
-  display: grid;
-  grid-template-columns:100%;
-  grid-template-rows: auto;
-  grid-template-areas:"main"
-                      "side";
-}
-
-h1 {
-  background-color: crimson;
-  margin-top: 25px;
-  margin-bottom: 0;
-  padding: 8px;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-}
-
-#battleshipGrid {
-  display: grid;
-  height: 360px;
-  grid-template-rows: repeat(var(--grid-rows), 1fr);
-  grid-template-columns: repeat(var(--grid-cols), 1fr);
-  grid-area: "main";
-  border: 7px solid rgba(66, 152, 239,.7);
 }
 
 .modal {
@@ -199,6 +113,27 @@ h1 {
   border:3px solid crimson;
 }
 
+#gameView {
+  justify-content: center;
+  width: 70%;
+  height: auto;
+  margin: auto;
+  display: grid;
+  grid-template-columns:100%;
+  grid-template-rows: auto;
+  grid-template-areas:"main"
+                      "side";
+}
+
+#battleshipGrid {
+  display: grid;
+  height: 360px;
+  grid-template-rows: repeat(var(--grid-rows), 1fr);
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  grid-area: "main";
+  border: 7px solid rgba(66, 152, 239,.7);
+}
+
 #messages {
   font-size: 20px;
   background-color: rgba(90, 90, 90, 0.9);
@@ -211,13 +146,48 @@ h1 {
   padding-bottom:9px;
   margin:auto;
   background-color:rgba(90, 90, 90, 0.9);
-  color: yellow;
   grid-area: "side";
+}
+
+#carrier {
+  background-size:100%;
+  margin:auto;
+  width: 182px;
+  height: 27px;
+} 
+
+#battleship {
+  background-size: cover;
+  margin:auto;
+  width: 150px;
+  height: 25px;
+} 
+
+#submarine {
+  background-size: 100%;
+  margin:auto;
+  width: 100px;
+  height:24px;
+}
+
+#cruiser {
+  background-size:100% ;
+  margin:auto;
+  width: 100px;
+  height: 24px;
+}
+
+#destroyer {
+  background-size:contain ;
+  margin:auto;
+  width:50px;
+  height: 22px;
+  padding-top: 3px;
 }
 
 #sideBar {
   background-color: rgba(66, 152, 239,.7);
-  height:auto;
+  height:185px;
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
 }

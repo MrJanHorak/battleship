@@ -64,7 +64,7 @@ function init() {
   ammo = 56
   hits = 0
   misses = 0
-  timeLeft = 35
+  timeLeft = 30
   selectedGridId =null
   //setup resets the game piece containers needed for replay
   setup()
@@ -174,8 +174,6 @@ function render(){
 
   if(placedStatus.includes(false)!==true && gameGridState!=='winner'){
     loop++
-    rowIndex = null
-    columnIndex = null
     if (loop===1){
       gameGridState = 'transition'
       popupModal()
@@ -230,27 +228,31 @@ function render(){
 function guessStats() {
   boatsSelection[0].style.visibility='visible'
   boatsSelection[0].style.backgroundImage= 'unset'
-  boatsSelection[0].textContent=`Ammo: ${ammo}`
+  boatsSelection[0].innerText=`Ammo: ${ammo}`
   boatsSelection[1].style.visibility='visible'
   boatsSelection[1].style.backgroundImage= 'unset'
-  boatsSelection[1].textContent=`hits: ${hits}`
   boatsSelection[2].style.visibility='visible'
   boatsSelection[2].style.backgroundImage= 'unset'
-  boatsSelection[2].textContent=`misses: ${misses}`
+  boatsSelection[2].innerText=`misses: ${misses}`
   boatsSelection[3].style.visibility='visible'
   boatsSelection[3].style.backgroundImage= 'unset'
   boatsSelection[4].style.visibility='visible'
   boatsSelection[4].style.backgroundImage= 'unset'
+  boatsSelection[4].innerText=`hits: ${hits}`
 }
 
 function setup() {
   //this resets the game pieces visibility at game reset
   for (let i=0 ; i < boatsArray.length ; i++){
-    boatsSelection[i].textContent=' '
+    boatsSelection[i].textContent = ' '
     boatsArray[i].placed=false
     boatsSelection[i].style.visibility = 'visible'
-    boatsSelection[i].style.backgroundImage= "initial"
   }
+    boatsSelection[0].style.backgroundImage = "url(../images/5longBoat.png)"
+    boatsSelection[1].style.backgroundImage = "url(../images/4longBoat.png)"
+    boatsSelection[2].style.backgroundImage = "url(../images/3longBoat.png)"
+    boatsSelection[3].style.backgroundImage = "url(../images/3longBoat.png)"
+    boatsSelection[4].style.backgroundImage = "url(../images/2longBoat.png)"
 }
 
 // function to place the boat on the grid
@@ -363,23 +365,23 @@ function winnerYet(){
   })
   if(winnerCheck.includes('b')===false){
     gameGridState = 'winner'
-    messages.innerHTML = `Player 2 you sank player 1s fleet!`
+    messages.innerHTML = `You win! You sank the fleet!`
   } else if (ammo === 0){
     gameGridState = 'winner'
-    messages.innerHTML = `Player 2 you ran out of ammo!<br />You Lost!!`
+    messages.innerHTML = `Out of ammo! You Lost!!`
   } else if (timeLeft === 0){
     gameGridState = 'winner'
-    messages.innerHTML = `Player 2 you ran out of time!<br />You Lost!!`
+    messages.innerHTML = `Out of time! You Lost!!`
   }
 }
 
 // countdown timer for player 2 starts as soon as gameState switches to guess
 function timer() {
     let countdown = setInterval(()=> {
-    boatsSelection[4].textContent = `${timeLeft} seconds`
+    boatsSelection[1].innerText = `${timeLeft} seconds`
     timeLeft -=1
     if (timeLeft<=0) {
-      boatsSelection[4].textContent = "Time's up!"
+      boatsSelection[1].innerText = "Time's up!"
       winnerYet()
       clearInterval(countdown)
     }}, 1000)
