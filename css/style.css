@@ -110,10 +110,13 @@ h1 {
   /* width: 300px; //size of modal */
   margin: 12% auto; 
   grid-area: 'main';
+  font-family: Arial, Helvetica, sans-serif;
 }
+
 .grid-item:hover {
   border:3px solid crimson;
 }
+
 .boat:hover {
   border:3px solid crimson;
 }
@@ -237,8 +240,6 @@ h1 {
     margin-top:25px;
   }
   #gameView {
-    /* justify-content:; */
-    /* width: 100%; */
     height: auto;
     margin: auto;
     display:flex;
@@ -267,18 +268,20 @@ h1 {
     grid-area: "aside";
     margin:5px;
     padding: 5px;
-    padding-top: 35px;
+    padding-top: 45px;
     height:150px;
+    border-radius: 5px;
   }
   
   #gamestat {
     font-size: 17px;
     padding-bottom:9px;
-    margin:2px;
+    margin:5px;
     background-color:rgba(90, 90, 90, 0.9);
     grid-area: "footer";
     padding: 5px;
-    margin-top:45px
+    margin-top:45px;
+    border-radius:5px;
   }
   
   #sideBar {
